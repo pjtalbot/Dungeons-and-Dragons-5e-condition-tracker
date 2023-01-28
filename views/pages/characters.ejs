@@ -1,0 +1,24 @@
+<%- include('../partials/head') %>
+<%- include('../partials/navbar') %>
+<h1>Create New Character</h1>
+<% if (messages) { %>
+    <%= messages.error %>
+<% } %>
+<form action="/characters" method="POST">
+    <div>
+        <label for="character-name">Name</label>
+        <input type="text" id="character-name" name="character-name"required>
+    </div>
+    <div>
+        <label for="character-class">class</label>
+        <input type="text" id="character-class" name="character-class"required>
+    </div>
+    <div>
+        <label for="species">Species</label>
+        <input type="text" id="species" name="species"required>
+    </div>
+
+    <button type="submit">Create</button>
+
+</form>
+<a href="/">Home</a>

@@ -1,0 +1,35 @@
+<%- include('../partials/head') %>
+<%- include('../partials/navbar') %>
+<h1>Rooms</h1>
+<% if (messages) { %>
+    <%= messages.error %>
+<% } %>
+<h2>Join Room</h2>
+<form action="/rooms/<%= %>" method="GET">
+    <div>
+        <label for="character-name">Join with Room ID</label>
+        <input type="text" id="character-name" name="character-name"required>
+    </div>
+    <div>
+        <label for="room-id">class</label>
+        <input type="room-id" id="room-id" name="room-id"required>
+    </div>
+
+    <button type="submit">Join Room</button>
+
+</form>
+<h2>Create Room</h2>
+<form action="/rooms" method="POST">
+    <div>
+        <label for="room-name">Room Name</label>
+        <input type="text" id="room-name" name="room-name"required>
+    </div>
+    <div>
+        <label for="campaign-name">Campaign Name</label>
+        <input type="campaign-name" id="campaign-name" name="room-id"required>
+    </div>
+
+    <button type="submit">Join Room</button>
+
+</form>
+<a href="/">Home</a>
