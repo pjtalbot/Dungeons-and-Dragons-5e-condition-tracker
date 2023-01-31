@@ -6,22 +6,14 @@ const bcrypt = require('bcrypt');
 const db = require('../db.js');
 const yup = require('yup');
 
-router.get('/', checkNotAuthenticated, (req, res) => {
-	res.render('pages/login.ejs');
-	// let $navbar = $('')
+router.get('/:roomId', checkAuthenticated, (req, res, next) => {
+	res.render('pages/room.ejs', { roomId: 1 });
 });
 
-router.post(
-	'/',
-	checkNotAuthenticated,
-	passport.authenticate('local', {
-		// successRedirect: '/user',
-		failureRedirect: '/login',
-		failureFlash: true
-	}),
-	(req, res) => {
-		res.redirect('/user');
-	}
-);
+router.post('/create', checkAuthenticated, async (req, res) => {
+	let formData = await req.body;
+
+	res.redirect(`room/${formData.name}`);
+});
 
 module.exports = router;
