@@ -1,0 +1,12 @@
+<%- include('../partials/head') %>
+<%- include('../partials/navbar') %>
+<h1>Character Name:<%= character.name %> </h1>
+<h2>Class: <%= character.class %></h2>
+<h2>Species: <%= character.species %></h2>
+
+<form action='/character/delete/<%= character.id %>' method="POST">
+    <button class='delete'>Delete Character</button>
+</form>
+
+<a href="/user/characters">Characters</a>
+<a href="/user/rooms">Rooms</a>

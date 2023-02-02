@@ -5,14 +5,14 @@
 
 CREATE TABLE "users" (
     "id"  SERIAL  NOT NULL,
-    "username" text   NOT NULL,
-    "email" email   NOT NULL,
+    "name" text   NOT NULL,
+    "email" text   NOT NULL,
     "password" text   NOT NULL,
     CONSTRAINT "pk_users" PRIMARY KEY (
         "id"
      ),
-    CONSTRAINT "uc_users_username" UNIQUE (
-        "username"
+    CONSTRAINT "uc_users_name" UNIQUE (
+        "name"
     ),
     CONSTRAINT "uc_users_email" UNIQUE (
         "email"
@@ -23,20 +23,33 @@ CREATE TABLE "users" (
 );
 
 CREATE TABLE "rooms" (
-    "id" int   NOT NULL,
+    "id" SERIAL   NOT NULL,
     "name" text   NOT NULL,
-    "gamemaster_id" int   NOT NULL,
+    "created_by" int   NOT NULL,
     CONSTRAINT "pk_rooms" PRIMARY KEY (
         "id"
      )
 );
 
+CREATE TABLE user_room (
+  user_id INT
+ ,room_id INT
+ ,CONSTRAINT user_room_pk PRIMARY KEY (user_id, room_id)
+ ,CONSTRAINT FK_user
+  FOREIGN KEY (user_id) REFERENCES users (id)
+ ,CONSTRAINT FK_category
+  FOREIGN KEY (room_id) REFERENCES rooms (id)
+);
+
+
 CREATE TABLE "characters" (
-    "id" int   NOT NULL,
-    "user_id" int   NOT NULL,
-    "stats" json   NOT NULL,
+    "id" SERIAL   NOT NULL,
+    "name" text,
+    "class" text,
+    "species" text,
+    "created_by" int   NOT NULL,
     CONSTRAINT "pk_characters" PRIMARY KEY (
-        "id","user_id"
+        "id","created_by"
      )
 );
 
@@ -58,7 +71,7 @@ ALTER TABLE "rooms" ADD CONSTRAINT "fk_rooms_gamemaster_id" FOREIGN KEY("gamemas
 REFERENCES "users" ("id");
 
 ALTER TABLE "characters" ADD CONSTRAINT "fk_characters_user_id" FOREIGN KEY("user_id")
-REFERENCES "users" ("id");
+REFERENCES "users" ("id") ON DELETE CASCADE;
 
 ALTER TABLE "abilities" ADD CONSTRAINT "fk_abilities_id" FOREIGN KEY("id")
 REFERENCES "characters" ("id");

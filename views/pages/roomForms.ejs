@@ -4,16 +4,16 @@
 <% if (messages) { %>
     <%= messages.error %>
 <% } %>
-<!-- <h2>Join Room</h2>
-<form action="/rooms" method="POST">
+<h2>Join Room</h2>
+<form action="/room/join" method="POST">
     <div>
-        <label for="room-id">Join with Room ID</label>
-        <input type="text" id="room-id" name="room-id"required>
+        <label for="room_id">Join with Room ID</label>
+        <input type="text" id="room_id" name="room_id"required>
     </div>
 
     <button type="submit">Join Room</button>
 
-</form> -->
+</form>
 <h2>Create Room</h2>
 <form action="rooms/create" method="POST">
     <div>
@@ -21,7 +21,22 @@
         <input type="text" id="name" name="name"required>
     </div>
 
-    <button type="submit">Join Room</button>
+    <button type="submit">Create Room</button>
 
 </form>
+
+<h2>Created Rooms</h2>
+<ul id="rooms-list">
+    <% for (let i = 0; i <userRooms.length ; i++) { %>
+        <li> <a href="/room/<%=userRooms[i].id%>"><%= userRooms[i].name %></a> </li>
+    <% } %>
+</ul>
+
+<h2>Joined Rooms</h2>
+<ul id="joined">
+    <% for (let i = 0; i <joinedRooms.length ; i++) { %>
+        <li> <a href="/room/<%=joinedRooms[i].id%>"><%= joinedRooms[i].name %></a> </li>
+    <% } %>
+</ul>
+
 <a href="/user">Home</a>

@@ -14,9 +14,10 @@ const signUpRoutes = require('./authRoutes/register.js');
 const loginRoutes = require('./authRoutes/login.js');
 const profileRoutes = require('./protectedRoutes/profile.js');
 const roomRoutes = require('./protectedRoutes/room.js');
+const characterRoutes = require('./protectedRoutes/character.js');
 
 const initializePassport = require('./passport-config');
-const { checkAuthenticated } = require('./helpers/checkAuth');
+const { checkAuthenticated, checkNotAuthenticated } = require('./helpers/checkAuth');
 initializePassport(
 	passport,
 	(email) => db.query(`SELECT * FROM users WHERE email = $1`, [ email ]),
@@ -43,11 +44,18 @@ app.use(passport.session());
 app.use(methodOverride('_method'));
 
 // ROUTES
+app.use('/', function(req, res, next) {
+	console.log(`%&%&%&%&%@#@#@#@#@ PATH ${req.url}, ${req.path} %&%&%&%&%@#@#@#@#@`);
+	next();
+});
 
 app.use('/register', signUpRoutes);
 app.use('/login', loginRoutes);
 app.use('/user', profileRoutes);
 app.use('/room', roomRoutes);
+app.use('/character', characterRoutes);
+
+app.get('/', checkNotAuthenticated, (req, res) => {});
 
 app.delete('/logout', (req, res) => {
 	req.logOut((err) => {

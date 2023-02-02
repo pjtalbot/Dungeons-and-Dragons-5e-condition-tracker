@@ -8,87 +8,86 @@ const yup = require('yup');
 
 // Models
 const User = require('../models/User');
+const Character = require('../models/Character');
 // const Room = require('../models/Room');
 
-router.use(function(req, res, next) {
-	res.locals.user = req.user;
-	console.log('in router.use() profile.jsz');
-	console.log(res.locals.user);
-	console.log(req.body);
-
-	next();
-});
-
 router.get('/', checkAuthenticated, async (req, res, next) => {
-	console.log('req.body');
-	console.log(req.session.passport.user);
-	console.log('req.user');
-	console.log(req.user);
 	let userId = req.session.passport.user;
-	console.log(userId);
 
 	let data = await db.query(`SELECT * FROM users WHERE id = $1`, [ userId ]);
-	console.log(data.rows[0].name);
-	if (res.locals.authenticated) {
-		console.log('is authenticated');
-		console.log(data);
-	}
-
-	console.log(res.locals.user);
 	let user = data.rows[0];
-	console.log(user);
 	res.render('pages/index.ejs', { name: user.name });
 });
 
 router.get('/characters', checkAuthenticated, async (req, res) => {
 	// TODO: set up schema, and use THAT to both create the form AND add user input
-	// Find a good library for that
-	res.render('pages/characters.ejs');
+
+	let userId = req.session.passport.user;
+	console.log(userId);
+	let userCharacters = await Character.getAll(userId);
+	console.log(userCharacters);
+	// let userCharacters = (await db.query(`SELECT * FROM characters WHERE created_by = $1`, [ userId ])).rows;
+
+	res.render('pages/characterForm.ejs', { characters: userCharacters });
+});
+
+router.post('/characters/create', checkAuthenticated, async (req, res) => {
+	let userId = req.session.passport.user;
+	console.log(userId);
+	let formData = {
+		name: req.body.name,
+		class: req.body.class,
+		species: req.body.species,
+		createdBy: userId
+	};
+
+	console.log(formData.createdBy);
+	await Character.create(formData.name, formData.class, formData.species, formData.createdBy);
+	// retrieve last created character ID (generated Serial)
+	let charId = (await db.query(`SELECT currval('characters_id_seq')`)).rows[0].currval;
+	console.log(charId);
+
+	let character = (await db.query(`SELECT * FROM characters WHERE id = $1`, [ charId ])).rows[0];
+	res.redirect(`/character/${character.id}`);
 });
 
 router.get('/rooms', checkAuthenticated, async (req, res) => {
 	// TODO: First set up seperate client for chat
 	// make sure both work simultaneously before moving on
-	// simple counter?
+	// simple counter
 
-	res.render('pages/roomForms.ejs');
+	let userId = req.session.passport.user;
+	let userRooms = (await db.query(`SELECT id, name FROM rooms WHERE created_by = $1`, [ userId ])).rows;
+	console.log(userRooms);
+	let joinedRooms = (await db.query(
+		`SELECT rooms.id, rooms.name FROM rooms JOIN
+    user_room ON rooms.id = user_room.room_id AND user_id = $1`,
+		[ userId ]
+	)).rows;
+	console.log(joinedRooms);
+	res.render('pages/roomForms.ejs', { userRooms: userRooms, joinedRooms: joinedRooms });
 });
 
 router.post('/rooms/create', checkAuthenticated, async (req, res) => {
+	let userId = req.session.passport.user;
+
 	console.log(req.body.name);
 	let formData = { name: req.body.name };
 
-	// let createQuery = `CREATE TABLE rooms (
-	//     id serial PRIMARY KEY,
-	//     name VARCHAR ( 50 )
-	//  );`;
+	let query = `INSERT INTO rooms (name, created_by)
+    VALUES ($1, $2) RETURNING id;`;
 
-	// db.query(createQuery);
-
-	let query = `INSERT INTO rooms (name)
-    VALUES ($1) RETURNING id;`;
-
-	let result = await db.query(query, [ formData.name ]);
-
+	let result = await db.query(query, [ formData.name, userId ]);
 	let id = result.rows[0].id;
-	console.log(id);
 
 	let room = (await db.query(`SELECT * FROM rooms WHERE id = $1`, [ id ])).rows[0];
 
-	console.log(room);
+	query = `INSERT INTO user_room (user_id, room_id)
+    VALUES ($1, $2);`;
 
-	// let room = await db.query('SELECT * FROM rooms WHERE');
+	await db.query(query, [ userId, room.id ]);
 
-	res.render('pages/room.ejs', { room: room });
-
-	// let room = db.query('SELECT * FROM rooms WHERE id = $1', [ 1 ]);
-
-	//harcoded room
-	// console.log(req.body);
-	// let roomId = req.body.roomId;
-	// console.log(roomId);
-	// let room = { id: 1, name: 'Excelsior Table', party: 'The Squad' };
-	// res.render('pages/roomForms.ejs'), req.params;
+	res.redirect(`/room/${room.id}`);
 });
 
 module.exports = router;

@@ -1,7 +1,14 @@
 <%- include('../partials/head') %>
 <%- include('../partials/navbar') %>
 <h1>Room Id:<%= room.id %> </h1>
-<h2>NEW ROOM: <%= room.name %></h2>
+<h2>Room Name: <%= room.name %></h2>
+
+<h3>Players</h3>
+<ul id="players">
+  <% for (let i = 0; i <players.length ; i++) { %>
+      <li> <a href="/character/<%=players[i].id%>"><%= players[i].name %></a> </li>
+  <% } %>
+</ul>
 
 <a href="/user/characters">Characters</a>
 <a href="/user/rooms">Rooms</a>
