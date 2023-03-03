@@ -31,14 +31,15 @@ CREATE TABLE "rooms" (
      )
 );
 
-CREATE TABLE user_room (
-  user_id INT
- ,room_id INT
+CREATE TABLE "user_room" (
+  "user_id" INT
+ ,"room_id" INT
  ,CONSTRAINT user_room_pk PRIMARY KEY (user_id, room_id)
  ,CONSTRAINT FK_user
   FOREIGN KEY (user_id) REFERENCES users (id)
+  ON DELETE CASCADE
  ,CONSTRAINT FK_category
-  FOREIGN KEY (room_id) REFERENCES rooms (id)
+  FOREIGN KEY (room_id) REFERENCES rooms (id) ON DELETE CASCADE
 );
 
 
@@ -53,18 +54,22 @@ CREATE TABLE "characters" (
      )
 );
 
-CREATE TABLE "abilities" (
-    "id" int   NOT NULL,
+CREATE TABLE "cards" (
+    "id" SERIAL   NOT NULL,
+    "name" TEXT, 
+    "category" text   NOT NULL,
     "type" text   NULL,
+    "properties" text   NULL,
     "description" text   NULL,
-    "damage" json   NULL,
-    "effects" json   NULL,
-    CONSTRAINT "pk_abilities" PRIMARY KEY (
+    "damage" text   NULL,
+    "bonus" text   NULL,
+    "character_id" int NULL, 
+    CONSTRAINT "pk_cards" PRIMARY KEY (
         "id"
      )
 );
 
-ALTER TABLE "rooms" ADD CONSTRAINT "fk_rooms_id" FOREIGN KEY("id")
+ALTER TABLE "rooms" ADD CONSTRAINT "fk_rooms_id" FOREIGN KEY("user_id")
 REFERENCES "users" ("id");
 
 ALTER TABLE "rooms" ADD CONSTRAINT "fk_rooms_gamemaster_id" FOREIGN KEY("gamemaster_id")

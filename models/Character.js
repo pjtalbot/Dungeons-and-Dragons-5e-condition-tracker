@@ -1,22 +1,9 @@
-/** User class for message.ly */
-
 const db = require('../db');
 const bcrypt = require('bcrypt');
 const ExpressError = require('express');
 
-// const { BCRYPT_WORK_FACTOR } = require('../config');
-
-/** User of the site. */
-
 class Character {
-	/** register new user -- returns
-   *    {username, password, first_name, last_name, phone}
-   */ constructor(
-		name,
-		Class,
-		species,
-		createdBy
-	) {
+	constructor(name, Class, species, createdBy) {
 		this.name = name;
 		this.class = Class;
 		this.species = species;
@@ -46,27 +33,6 @@ class Character {
 			throw new ExpressError(e);
 		}
 	}
-
-	/** Authenticate: is this username/password valid? Returns boolean. */
-
-	/** Update last_login_at for user */
-
-	static async updateLoginTimestamp(username) {
-		const result = await db.query(
-			`UPDATE users
-           SET last_login_at = current_timestamp
-           WHERE username = $1
-           RETURNING username`,
-			[ username ]
-		);
-
-		if (!result.rows[0]) {
-			throw new ExpressError(`No such user: ${username}`, 404);
-		}
-	}
-
-	/** All: basic info on all users:
-   * [{username, first_name, last_name}, ...] */
 
 	static async get(id) {
 		try {
@@ -99,10 +65,6 @@ class Character {
 			[ userId ]
 		);
 
-		// if (!result.rows[0]) {
-		// 	throw new ExpressError(`Cannot find any Characters for user-id: ${userId}`, 404);
-		// }
-
 		return result.rows;
 	}
 
@@ -114,23 +76,11 @@ class Character {
                RETURNING id`,
 			[ id ]
 		);
+
 		const char = result.rows[0];
 		console.log(`INSIDE MODEL DELETE METHOD`);
 		console.log(char);
 	}
-
-	// static async remove(id) {
-	// 	const result = await db.query(
-	// 		`DELETE
-	//        FROM charcters
-	//        WHERE id = $1
-	//        RETURNING id`,
-	// 		[ id ]
-	// 	);
-	// 	const job = result.rows[0];
-
-	// 	if (!job) throw new NotFoundError(`No job: ${id}`);
-	// }
 }
 
 module.exports = Character;

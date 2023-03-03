@@ -1,6 +1,6 @@
 const db = require('../db');
 
-const checkRoomExists = async (id, table) => {
+const checkRowExists = async (id, table) => {
 	let result = await db.query(
 		`
         SELECT * FROM ${table} WHERE id = $1 LIMIT 1`,
@@ -27,6 +27,22 @@ const getPlayersInRoom = async (roomId) => {
 	return result;
 };
 
+async function checkEmailIsAvailable(email) {
+	let result = await db.query(`SELECT email FROM users WHERE email = $1`, [ email ]);
+	if (result.rows.length > 0) {
+		return false;
+	}
+	return true;
+}
+
+async function checkUsernameIsAvailable(username) {
+	let result = await db.query(`SELECT name FROM users WHERE name = $1`, [ username ]);
+	if (result.rows.length > 0) {
+		return false;
+	}
+	return true;
+}
+
 const dropRowFromDb = async (Model, userId) => {
 	let result = (await db.query(
 		`SELECT users.id, users.name FROM users LEFT JOIN user_room
@@ -34,4 +50,4 @@ const dropRowFromDb = async (Model, userId) => {
 		[ roomId ]
 	)).rows;
 };
-module.exports = { getPlayersInRoom, checkRoomExists };
+module.exports = { getPlayersInRoom, checkRowExists, checkEmailIsAvailable, checkUsernameIsAvailable };

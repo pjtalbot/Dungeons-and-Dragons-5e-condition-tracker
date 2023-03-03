@@ -8,6 +8,7 @@ const passport = require('passport');
 const flash = require('express-flash');
 const session = require('express-session');
 const methodOverride = require('method-override');
+
 const db = require('./db');
 // Routes
 const signUpRoutes = require('./authRoutes/register.js');
@@ -15,6 +16,7 @@ const loginRoutes = require('./authRoutes/login.js');
 const profileRoutes = require('./protectedRoutes/profile.js');
 const roomRoutes = require('./protectedRoutes/room.js');
 const characterRoutes = require('./protectedRoutes/character.js');
+const cardRoutes = require('./protectedRoutes/card.js');
 
 const initializePassport = require('./passport-config');
 const { checkAuthenticated, checkNotAuthenticated } = require('./helpers/checkAuth');
@@ -24,8 +26,15 @@ initializePassport(
 	(id) => db.query(`SELECT * FROM users WHERE id = $1`, [ id ])
 );
 
+// TODO: make a parent directory for both projects
+// Todo: Move dice-roller directory into the parent
+// TODO: install dependencies
+// TODO: import the (dice-roller) app.js as a module (const rollerChat = require('./<path to roller>'))
+// TODO:
+
 app.set('views', './views');
 app.set('view engine', 'ejs');
+
 app.use(express.urlencoded({ extended: false }));
 app.use(flash());
 app.use(
@@ -54,6 +63,7 @@ app.use('/login', loginRoutes);
 app.use('/user', profileRoutes);
 app.use('/room', roomRoutes);
 app.use('/character', characterRoutes);
+app.use('/card', cardRoutes);
 
 app.get('/', checkNotAuthenticated, (req, res) => {});
 
@@ -65,12 +75,5 @@ app.delete('/logout', (req, res) => {
 	});
 	res.redirect('/login');
 });
-
-// app.get('/', (req, res) => {
-// 	return res.redirect('/home');
-// });
-// app.get('/home', (req, res) => {
-// 	return res.render('pages/homepage');
-// });
 
 module.exports = app;

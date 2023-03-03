@@ -5,17 +5,16 @@ const passport = require('passport');
 const bcrypt = require('bcrypt');
 const db = require('../db.js');
 const yup = require('yup');
+const { body, validationResult } = require('express-validator');
 
 router.get('/', checkNotAuthenticated, (req, res) => {
 	res.render('pages/login.ejs');
-	// let $navbar = $('')
 });
 
 router.post(
 	'/',
 	checkNotAuthenticated,
 	passport.authenticate('local', {
-		// successRedirect: '/user',
 		failureRedirect: '/login',
 		failureFlash: true
 	}),

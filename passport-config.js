@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 
 function initialize(passport, getUserByEmail, getUserById) {
 	const authenticateUser = async (email, password, done) => {
-		const queryResult = await getUserByEmail(email);
+		const queryResult = await getUserByEmail(email.toLowerCase());
 		const user = queryResult.rows[0];
 		console.log(user);
 

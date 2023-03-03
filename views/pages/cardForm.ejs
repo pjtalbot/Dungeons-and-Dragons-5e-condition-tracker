@@ -1,0 +1,40 @@
+<h1>Create New Ability / Weapon / Spell card</h1>
+<% if (messages) { %>
+    <%= messages.error %>
+<% } %>
+<form action="/card/create" method="POST">
+    <div>
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name"required>
+    </div>
+    <div>
+        <label for="category">Category</label>
+        <input type="text" id="category" name="category"required>
+    </div>
+    <div>
+        <label for="type">Type</label>
+        <input type="text" id="type" name="type"required>
+    </div>
+    <div>
+        <label for="properties">Properties</label>
+        <input type="text" id="properties" name="properties"required>
+    </div>
+    <div>
+        <label for="desc">Description</label>
+        <input type="text" id="desc" name="desc"required>
+    </div>
+    <div>
+        <label for="damage">Damage</label>
+        <input type="text" id="damage" name="damage"required>
+    </div>
+    <div>
+        <label for="bonus">Bonus</label>
+        <input type="text" id="bonus" name="bonus"required>
+    </div>
+
+
+
+    <button type="submit">Create Ability / Weapon / Spell Card</button>
+
+</form>
+

@@ -6,14 +6,16 @@ const bcrypt = require('bcrypt');
 const db = require('../db.js');
 const yup = require('yup');
 
+const Room = require('../models/Room');
+
 const { checkForId } = require('../helpers/general');
-const { getPlayersInRoom, checkRoomExists } = require('../helpers/dbHelpers');
+const { getPlayersInRoom, checkRowExists } = require('../helpers/dbHelpers');
 
 router.get('/:roomId', checkAuthenticated, async (req, res, next) => {
 	let roomId = req.params.roomId;
 	console.log(roomId);
 
-	let room = (await db.query(`SELECT * FROM rooms WHERE id = $1`, [ roomId ])).rows[0];
+	let room = await Room.get(roomId);
 
 	let players = await getPlayersInRoom(roomId);
 
@@ -29,7 +31,7 @@ router.post('/join', checkAuthenticated, async (req, res) => {
 	let players = await getPlayersInRoom(roomId);
 	console.log(players);
 
-	let exists = await checkRoomExists(roomId, 'rooms');
+	let exists = await checkRowExists(roomId, 'rooms');
 	console.log(exists);
 
 	if (exists) {
@@ -56,12 +58,19 @@ router.post('/join', checkAuthenticated, async (req, res) => {
 
 router.post('/create', checkAuthenticated, async (req, res) => {
 	let formData = await req.body;
+	console.log(formData);
 
 	res.redirect(`room/${formData.name}`);
 });
 
 // TODO make Edit Routes
 
-router.delete('/delete/:roomId', checkAuthenticated, async (req, res) => {});
+router.post('/delete/:roomId', checkAuthenticated, async (req, res) => {
+	let roomId = req.params.roomId;
+
+	let result = await Room.delete(roomId);
+	console.log(result);
+	res.redirect('/user/rooms');
+});
 
 module.exports = router;

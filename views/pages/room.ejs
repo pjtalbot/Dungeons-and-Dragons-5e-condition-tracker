@@ -9,6 +9,11 @@
       <li> <a href="/character/<%=players[i].id%>"><%= players[i].name %></a> </li>
   <% } %>
 </ul>
+<!-- Insert div of chatroom -->
+
+<form action='/room/delete/<%= room.id %>' method="POST">
+  <button class='delete'>Delete Room</button>
+</form>
 
 <a href="/user/characters">Characters</a>
 <a href="/user/rooms">Rooms</a>

@@ -7,12 +7,13 @@ const db = require('../db.js');
 const yup = require('yup');
 
 // Models
-const User = require('../models/User');
 const Character = require('../models/Character');
-// const Room = require('../models/Room');
+const Room = require('../models/Room');
+const Card = require('../models/Card');
 
 router.get('/', checkAuthenticated, async (req, res, next) => {
 	let userId = req.session.passport.user;
+	req.flash('info', 'Welcome');
 
 	let data = await db.query(`SELECT * FROM users WHERE id = $1`, [ userId ]);
 	let user = data.rows[0];
@@ -25,6 +26,18 @@ router.get('/characters', checkAuthenticated, async (req, res) => {
 	let userId = req.session.passport.user;
 	console.log(userId);
 	let userCharacters = await Character.getAll(userId);
+	console.log(userCharacters);
+	// let userCharacters = (await db.query(`SELECT * FROM characters WHERE created_by = $1`, [ userId ])).rows;
+
+	res.render('pages/characterForm.ejs', { characters: userCharacters });
+});
+
+router.get('/cards', checkAuthenticated, async (req, res) => {
+	// TODO: set up schema, and use THAT to both create the form AND add user input
+
+	let userId = req.session.passport.user;
+	console.log(userId);
+	let userCharacters = await Card.getAll(userId);
 	console.log(userCharacters);
 	// let userCharacters = (await db.query(`SELECT * FROM characters WHERE created_by = $1`, [ userId ])).rows;
 
@@ -70,24 +83,14 @@ router.get('/rooms', checkAuthenticated, async (req, res) => {
 
 router.post('/rooms/create', checkAuthenticated, async (req, res) => {
 	let userId = req.session.passport.user;
-
-	console.log(req.body.name);
+	console.log('Rooms route: userId');
+	console.log(userId);
 	let formData = { name: req.body.name };
+	let newRoom = await Room.create(formData, userId);
 
-	let query = `INSERT INTO rooms (name, created_by)
-    VALUES ($1, $2) RETURNING id;`;
-
-	let result = await db.query(query, [ formData.name, userId ]);
-	let id = result.rows[0].id;
-
-	let room = (await db.query(`SELECT * FROM rooms WHERE id = $1`, [ id ])).rows[0];
-
-	query = `INSERT INTO user_room (user_id, room_id)
-    VALUES ($1, $2);`;
-
-	await db.query(query, [ userId, room.id ]);
-
-	res.redirect(`/room/${room.id}`);
+	// Associate user and room
+	console.log(newRoom.id);
+	res.redirect(`/room/${newRoom.id}`);
 });
 
 module.exports = router;
