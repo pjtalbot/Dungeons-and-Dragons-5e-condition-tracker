@@ -2,12 +2,16 @@ if (process.env.NODE_ENV !== 'production') {
 	require('dotenv').config();
 }
 
+// TODO: BLOP or S3 simple storage service (aws)
+
 const express = require('express');
 const app = express();
 const passport = require('passport');
 const flash = require('express-flash');
 const session = require('express-session');
 const methodOverride = require('method-override');
+
+const ExpressError = require('./expressError');
 
 const db = require('./db');
 // Routes
@@ -65,7 +69,9 @@ app.use('/room', roomRoutes);
 app.use('/character', characterRoutes);
 app.use('/card', cardRoutes);
 
-app.get('/', checkNotAuthenticated, (req, res) => {});
+app.get('/', checkNotAuthenticated, (req, res) => {
+	res.redirect('/login');
+});
 
 app.delete('/logout', (req, res) => {
 	req.logOut((err) => {
@@ -74,6 +80,11 @@ app.delete('/logout', (req, res) => {
 		}
 	});
 	res.redirect('/login');
+});
+
+app.use(function(req, res, next) {
+	const err = new ExpressError('Not found!', 404);
+	return next(err);
 });
 
 module.exports = app;

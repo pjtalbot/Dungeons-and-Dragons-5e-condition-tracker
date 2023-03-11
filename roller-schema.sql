@@ -2,12 +2,29 @@
 -- Link to schema: https://app.quickdatabasediagrams.com/#/d/EvUCgb
 -- NOTE! If you have used non-SQL datatypes in your design, you will have to change these here.
 
+DROP DATABASE IF EXISTS roller;
+
+
+CREATE DATABASE roller;
+
+
+
+
+DROP TABLE IF EXISTS "users";
+DROP TABLE IF EXISTS "rooms";
+DROP TABLE IF EXISTS "user_room";
+DROP TABLE IF EXISTS "characters";
+DROP TABLE IF EXISTS "images";
+DROP TABLE IF EXISTS "cards";
+
+\c roller;
 
 CREATE TABLE "users" (
     "id"  SERIAL  NOT NULL,
     "name" text   NOT NULL,
     "email" text   NOT NULL,
     "password" text   NOT NULL,
+    "created_at" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT "pk_users" PRIMARY KEY (
         "id"
      ),
@@ -21,6 +38,8 @@ CREATE TABLE "users" (
         "password"
     )
 );
+
+
 
 CREATE TABLE "rooms" (
     "id" SERIAL   NOT NULL,
@@ -49,9 +68,24 @@ CREATE TABLE "characters" (
     "class" text,
     "species" text,
     "created_by" int   NOT NULL,
+    "created_at" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    "conditions" text [] DEFAULT array[]::varchar[],
+    "max_hp" int,
+    "current_hp" int,
+    "resistances" text [] DEFAULT array[]::varchar[],
     CONSTRAINT "pk_characters" PRIMARY KEY (
         "id","created_by"
      )
+);
+
+CREATE TABLE "images" (
+    "id" SERIAL NOT NULL,
+    "user_id" int NOT NULL,
+    "character_sheet" bytea,
+    "portrait" bytea,
+    CONSTRAINT "pk_images" PRIMARY KEY (
+        "id"
+    )
 );
 
 CREATE TABLE "cards" (
@@ -68,6 +102,9 @@ CREATE TABLE "cards" (
         "id"
      )
 );
+
+ALTER TABLE "images" ADD CONSTRAINT "fk_images_user_id" FOREIGN KEY("user_id")
+REFERENCES "users" ("id") ON DELETE CASCADE;
 
 ALTER TABLE "rooms" ADD CONSTRAINT "fk_rooms_id" FOREIGN KEY("user_id")
 REFERENCES "users" ("id");

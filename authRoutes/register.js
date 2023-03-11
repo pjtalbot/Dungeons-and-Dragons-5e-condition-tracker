@@ -14,10 +14,12 @@ router.get('/', checkNotAuthenticated, (req, res) => {
 
 router.post('/', checkNotAuthenticated, async (req, res) => {
 	try {
-		// TODO: Add confirm password
+		// TODO: Add datetime
+		//
 		validateRegister(req);
 
 		if (checkEmailIsAvailable(req.body.email) && checkUsernameIsAvailable(req.body.name)) {
+			// TODO tolowercase email, before checking availablilty
 			const hashedPassword = await bcrypt.hash(req.body.password, 10);
 			let userData = {
 				id: Date.now().toString(),
@@ -25,8 +27,8 @@ router.post('/', checkNotAuthenticated, async (req, res) => {
 				email: req.body.email.toLowerCase(),
 				password: hashedPassword
 			};
-			const query = `INSERT INTO users (name, email, password)
-			VALUES ($1, $2, $3)`;
+			const query = `INSERT INTO users (name, email, password, created_at)
+			VALUES ($1, $2, $3, CURRENT_TIMESTAMP)`;
 			let values = [ userData.name, userData.email, userData.password ];
 
 			let cb = (err, result) => {

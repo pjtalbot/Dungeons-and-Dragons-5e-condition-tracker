@@ -16,6 +16,7 @@ router.get('/:charId', checkAuthenticated, async (req, res, next) => {
 
 	console.log('&&&&&&&&&&&&&&');
 	console.log(character);
+	console.log(character.conditions);
 	res.render('pages/character.ejs', { character: character, currentUser: currentUser });
 });
 
@@ -50,7 +51,7 @@ router.post('/create/:charId', checkAuthenticated, async (req, res, next) => {
 		);
 		console.log(newCard);
 
-		res.redirect(`/user/characters`);
+		res.redirect(`/character/${charId}`);
 	} catch (e) {
 		console.log(e);
 		throw e;

@@ -44,7 +44,6 @@ class Card {
 		WHERE character_id = $1`,
 			[ characterId ]
 		);
-
 		return result.rows;
 	}
 

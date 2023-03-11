@@ -5,6 +5,7 @@ const passport = require('passport');
 const bcrypt = require('bcrypt');
 const db = require('../db.js');
 const yup = require('yup');
+const { getAllConditions } = require('../dndapi/dndApi');
 
 // Models
 const Character = require('../models/Character');
@@ -14,6 +15,8 @@ const Card = require('../models/Card');
 router.get('/', checkAuthenticated, async (req, res, next) => {
 	let userId = req.session.passport.user;
 	req.flash('info', 'Welcome');
+
+	await getAllConditions();
 
 	let data = await db.query(`SELECT * FROM users WHERE id = $1`, [ userId ]);
 	let user = data.rows[0];

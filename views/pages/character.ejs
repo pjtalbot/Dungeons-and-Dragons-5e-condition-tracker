@@ -3,6 +3,32 @@
 <h1>Character Name:<%= character.name %> </h1>
 <h2>Class: <%= character.class %></h2>
 <h2>Species: <%= character.species %></h2>
+<h3>Max HP: <%= character.max_hp %></h3>
+<h3>Resistances</h3>
+    <ul>
+        <ul id="conditionsList">
+            <% for (let i = 0; i < character.resistances.length ; i++) { %>
+                <li> <%= character.resistances[i] %> x</li>
+            <% } %>
+        
+        </ul>
+    </ul>
+
+<form action="/character/<%=character.id %>/update/hp" method="POST">
+    <label for="max_hp">Max HP</label>
+<input type="integer" name="max_hp">
+<button>Update Max HP
+</Button>
+
+</form>
+
+<form action="/character/<%=character.id %>/add/resistance" method="POST">
+    <label for="resistances">Add Resistnace</label>
+<input type="text" name="resistances">
+<button>Add resistance
+</Button>
+
+</form>
 
 <form action='/character/delete/<%= character.id %>' method="POST">
     <button class='delete'>Delete Character</button>
@@ -58,6 +84,24 @@
     <button type="submit">Create Ability / Weapon / Spell Card</button>
 
 </form>
+
+<form action="/character/<%= character.id %>/update/conditions" method="POST">
+    <div>
+        <label for="condition">Condition</label>
+        <input type="text" id="condition" name="condition">
+    </div>
+    <button type="submit">Add condition</button>
+</form>
+
+<h3>Conditions</h3>
+<ul id="conditionsList">
+    <% for (let i = 0; i < character.conditions.length ; i++) { %>
+        <li> <%= character.conditions[i] %> - <form action= "/character/<%= character.id%>/remove/<%= character.conditions[i]%>" method="POST"><button id="remove-condition">x</button></form> </li>
+    <% } %>
+
+</ul>
+
+<form action="/character/<%= character.id %>/removeAll/conditions" method="POST"><button>Remove All Conditions</button></form>
 
 
 <a href="/user/characters">Characters</a>
