@@ -1,19 +1,9 @@
 <%- include('../partials/head') %>
 <%- include('../partials/navbar') %>
-<h1>Character Name:<%= character.name %> </h1>
+<h1>Character Name: <%= character.name %> </h1>
 <h2>Class: <%= character.class %></h2>
 <h2>Species: <%= character.species %></h2>
 <h3>Max HP: <%= character.max_hp %></h3>
-<h3>Resistances</h3>
-    <ul>
-        <ul id="conditionsList">
-            <% for (let i = 0; i < character.resistances.length ; i++) { %>
-                <li> <%= character.resistances[i] %> x</li>
-            <% } %>
-        
-        </ul>
-    </ul>
-
 <form action="/character/<%=character.id %>/update/hp" method="POST">
     <label for="max_hp">Max HP</label>
 <input type="integer" name="max_hp">
@@ -21,9 +11,20 @@
 </Button>
 
 </form>
+<h3>Resistances</h3>
+    <ul>
+        <ul id="resistancesList">
+            <% for (let i = 0; i < character.resistances.length ; i++) { %>
+                <li> <%= character.resistances[i] %> <form action= "/character/<%= character.id%>/remove/resistance/<%= character.resistances[i]%>" method="POST"><button id="remove-resistance">x</button></form></li>
+            <% } %>
+        
+        </ul>
+    </ul>
+
+
 
 <form action="/character/<%=character.id %>/add/resistance" method="POST">
-    <label for="resistances">Add Resistnace</label>
+    <label for="resistances">Add Resistance</label>
 <input type="text" name="resistances">
 <button>Add resistance
 </Button>
@@ -87,16 +88,32 @@
 
 <form action="/character/<%= character.id %>/update/conditions" method="POST">
     <div>
-        <label for="condition">Condition</label>
-        <input type="text" id="condition" name="condition">
+        
+        <input list="conditions" name="condition">
+        <datalist id="conditions">
+            <% console.log(allConditions.results) %>
+            <% for (let c of allConditions.results) { %>
+             <option value="<%= c.index %>"></option>       
+           <% } %>
+        </datalist>
     </div>
     <button type="submit">Add condition</button>
 </form>
 
 <h3>Conditions</h3>
 <ul id="conditionsList">
-    <% for (let i = 0; i < character.conditions.length ; i++) { %>
-        <li> <%= character.conditions[i] %> - <form action= "/character/<%= character.id%>/remove/<%= character.conditions[i]%>" method="POST"><button id="remove-condition">x</button></form> </li>
+    <% for (let c in conditions) { %>
+        <li id="<%= c %>"> <%= c %> - <form action= "/character/<%= character.id%>/remove/condition/<%= c %>" method="POST"><button id="remove-condition">x</button></form> 
+            <ul>
+                <% for (let d in conditions[c]) { %>
+        
+                    <li><%= conditions[c][d] %> </li>
+                
+                <% } %>
+
+            </ul>
+
+        </li>
     <% } %>
 
 </ul>

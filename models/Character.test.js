@@ -68,6 +68,33 @@ describe('Checks addCondition method', () => {
 		});
 	});
 
+	describe('Checks addResistance method', () => {
+		it('should successfully add resistance', async () => {
+			await Character.addResistance(newChar.id, 'fire');
+			console.log(newChar.resistances);
+			let resistances = await Character.getResistances(newChar.id);
+			expect(resistances.length).toEqual(1);
+			expect(resistances[0]).toEqual('fire');
+			await Character.addResistance(newChar.id, 'acid');
+			resistances = await Character.getResistances(newChar.id);
+			console.log(resistances);
+			expect(resistances.length).toEqual(2);
+		});
+	});
+	describe('Checks removeResistance method', () => {
+		it('should successfully remove resistance', async () => {
+			await Character.addResistance(newChar.id, 'fire');
+			console.log(newChar.resistances);
+			let resistances = await Character.getResistances(newChar.id);
+			expect(resistances.length).toEqual(1);
+			expect(resistances[0]).toEqual('fire');
+			await Character.removeResistance(newChar.id, 'fire');
+			resistances = await Character.getResistances(newChar.id);
+			console.log(resistances);
+			expect(resistances.length).toEqual(0);
+		});
+	});
+
 	// These tests should test the actual route using user input, NOT just the db INSERT query
 });
 

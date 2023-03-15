@@ -3,6 +3,7 @@
 const db = require('../db');
 const bcrypt = require('bcrypt');
 const ExpressError = require('express');
+const { getSpellByIndex } = require('../dndapi/dndApi');
 
 class Card {
 	constructor(name, category, type, properties, desc, damage, bonus) {
@@ -37,6 +38,16 @@ class Card {
 			throw new ExpressError(e);
 		}
 	}
+
+	// static async addSpellCardFromAPI(charId, spellIndex) {
+	// 	let spell = await getSpellByIndex(spellIndex);
+
+	// 	let description = spell.desc.join(`
+	// 		`);
+
+	// 	let newCard = await Card.create(spell.name, 'spell', spell.school.name, description, NULL, NULL, charId);
+	// 	return newCard;
+	// }
 
 	static async getAllByCharacter(characterId) {
 		const result = await db.query(

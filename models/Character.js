@@ -12,12 +12,6 @@ class Character {
 
 	static async create(name, Class, species, createdBy) {
 		try {
-			console.log('@@@@@@#####@@@@@');
-			console.log(this.createdBy);
-			console.log(this.name);
-			console.log(this.class);
-			console.log(this.species);
-			console.log(species);
 			const result = await db.query(
 				`INSERT INTO characters (
               name,
@@ -74,19 +68,50 @@ class Character {
 			`
 		UPDATE characters
 		SET max_hp = $1
-		WHERE created_by = $2`,
+		WHERE id = $2`,
 			[ maxHP, id ]
 		);
+		return result;
 	}
 
-	static async addResistances(id, resistiance) {
+	static async addResistance(id, resistance) {
+		let query = `UPDATE characters
+		SET resistances = ARRAY_APPEND(resistances, $1)
+		WHERE id = $2`;
+		let result = await db.query(query, [ resistance, id ]);
+		return result;
+	}
+
+	static async getResistances(id) {
 		const result = await db.query(
-			`
-		UPDATE characters
-		SET max_hp = $1
-		WHERE created_by = $2`,
-			[ maxHP, id ]
+			`SELECT *
+            FROM characters
+            WHERE id = $1
+			`,
+			[ id ]
 		);
+
+		console.log(result.rows[0]);
+
+		return result.rows[0].resistances;
+	}
+
+	static async removeResistance(id, resistance) {
+		try {
+			let char = await Character.get(id);
+			let currentResistances = char.resistances;
+			console.log(currentResistances);
+
+			let index = currentResistances.indexOf(resistance);
+			currentResistances.splice(index, 1);
+			let query = `UPDATE characters
+			SET resistances = $1
+			WHERE id = $2`;
+
+			let result = await db.query(query, [ currentResistances, id ]);
+		} catch (e) {
+			console.log(e);
+		}
 	}
 
 	static async getConditions(id) {

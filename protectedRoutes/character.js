@@ -6,10 +6,11 @@ const bcrypt = require('bcrypt');
 const db = require('../db.js');
 const yup = require('yup');
 
-const { getAllConditions } = require('../dndapi/dndApi');
+const { getAllConditions, getDescriptionById } = require('../dndapi/dndApi');
 
 const Character = require('../models/Character');
 const Card = require('../models/Card');
+const { default: axios } = require('axios');
 
 router.get('/:charId', checkAuthenticated, async (req, res, next) => {
 	let currentUser = req.session.passport.user;
@@ -18,9 +19,36 @@ router.get('/:charId', checkAuthenticated, async (req, res, next) => {
 	let character = await Character.get(charId);
 
 	let cards = await Card.getAllByCharacter(charId);
-	// let cards = [ { name: 'spell' }, { name: 'spell2' } ];
 
-	res.render('pages/character.ejs', { character: character, currentUser: currentUser, cards: cards });
+	let allConditions = await getAllConditions();
+
+	let conditions = {};
+
+	for (let c of character.conditions) {
+		let desc = await getDescriptionById(c);
+		console.log('******* DESCRIPTION ******');
+		console.log(desc);
+
+		let newKey = c.toString();
+
+		conditions[newKey] = desc;
+		console.log(conditions);
+	}
+
+	// TODO: for displaying condition rules
+	//
+
+	// let cards = [ { name: 'spell' }, { name: 'spell2' } ];
+	// TODO: How to display condition description?
+	// pass getDescriptionById function to ejs?
+
+	res.render('pages/character.ejs', {
+		character: character,
+		currentUser: currentUser,
+		cards: cards,
+		conditions: conditions,
+		allConditions: allConditions
+	});
 });
 
 router.post('/create/:charId', checkAuthenticated, async (req, res) => {
@@ -54,14 +82,39 @@ router.post('/:charId/update/conditions', checkAuthenticated, async (req, res) =
 	res.redirect(`/character/${charId}`);
 });
 
+router.get('/:charId/conditions', checkAuthenticated, async (req, res) => {
+	let charId = req.params.charId;
+
+	let conditions = await Character.getConditions(charId);
+
+	// get conditions, ensure conditions is object with key.
+	// then query api for desc
+	// update each condition with getDescriptionById()
+});
+
 router.post('/:charId/add/resistance', checkAuthenticated, async (req, res) => {
 	let resistances = req.body.resistances;
+	console.log(resistances);
 	let charId = req.params.charId;
-	let result = await Character.addResistances(charId, resistances);
+	let result = await Character.addResistance(charId, resistances);
 	res.redirect(`/character/${charId}`);
 });
 
-router.post('/:charId/remove/:condition', checkAuthenticated, async (req, res) => {
+router.post('/:charId/remove/resistance/:resistance', checkAuthenticated, async (req, res) => {
+	try {
+		// TODO: remove conditions broken
+		let resistanceId = req.params.resistance;
+		let charId = req.params.charId;
+		console.log('******REMOVE RESISTANCE*****');
+		// let conditionsArr = await Character
+		let result = await Character.removeResistance(charId, resistanceId);
+		res.redirect(`/character/${charId}`);
+	} catch (e) {
+		console.log(e);
+	}
+});
+
+router.post('/:charId/remove/condition/:condition', checkAuthenticated, async (req, res) => {
 	try {
 		// TODO: remove conditions broken
 		let conditionId = req.params.condition;
