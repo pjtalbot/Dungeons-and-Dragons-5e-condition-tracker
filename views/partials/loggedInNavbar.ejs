@@ -5,11 +5,14 @@
     <div class="container">
         <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                
+
+                <li class="display-2">R🎲LLER</li>
                 <li><a href="/user" class="nav-link px-2 text-white">Home</a></li>
-                <li><a href="/login" class="nav-link px-2 text-white" id="nav-login">Login</a></li>
-                <li><a href="/register" class="nav-link px-2 text-white">SignUp</a></li>
-                
+                <li><a href="/user/characters" class="nav-link px-2 text-white" id="nav-login">Characters</a></li>
+                <li><a href="/user/rooms" class="nav-link px-2 text-white">Rooms</a></li>
+                <li> <form action="/logout?_method=DELETE" method="POST" class="nav-link px-2 text-white">
+                    <button class="btn-primary"type="submit">Log Out</button>
+                  </form></li>
             </ul>
             <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
                 <input type="search" class="form-control form-control-dark" placeholder="Search..." aria-label="Search">

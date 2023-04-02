@@ -1,5 +1,7 @@
 <%- include('../partials/head') %>
-<%- include('../partials/navbar') %>
+<%- include('../partials/loggedInNavbar') %>
+<div class="container">
+
 <h1>Rooms</h1>
 <% if (messages) { %>
     <%= messages.error %>
@@ -27,6 +29,9 @@
 
 <h2>Created Rooms</h2>
 <ul id="rooms-list">
+    <% if (userRooms.length == 0 || userRooms.length == null) { %>
+        <li>You haven't made any rooms yet</li>
+    <% }%>
     <% for (let i = 0; i <userRooms.length ; i++) { %>
         <li> <a href="/room/<%=userRooms[i].id%>"><%= userRooms[i].name %></a> </li>
     <% } %>
@@ -34,9 +39,14 @@
 
 <h2>Joined Rooms</h2>
 <ul id="joined">
+    <% if (joinedRooms.length == 0 || joinedRooms.length == null) { %>
+        <li>You haven't joined any rooms yet</li>
+    <% }%>
     <% for (let i = 0; i <joinedRooms.length ; i++) { %>
         <li> <a href="/room/<%=joinedRooms[i].id%>"><%= joinedRooms[i].name %></a> </li>
     <% } %>
 </ul>
 
 <a href="/user">Home</a>
+
+</div>

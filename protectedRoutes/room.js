@@ -7,20 +7,48 @@ const db = require('../db.js');
 const yup = require('yup');
 
 const Room = require('../models/Room');
+const Character = require('../models/Character');
 
 const { checkForId } = require('../helpers/general');
-const { getPlayersInRoom, checkRowExists } = require('../helpers/dbHelpers');
+const { getPlayersInRoom, checkRowExists, getCharactersInRoom } = require('../helpers/dbHelpers');
 
 router.get('/:roomId', checkAuthenticated, async (req, res, next) => {
 	let roomId = req.params.roomId;
 	console.log(roomId);
+	let userId = req.session.passport.user;
 
 	let room = await Room.get(roomId);
 
 	let players = await getPlayersInRoom(roomId);
 
+	let characters = await getCharactersInRoom(roomId);
+	console.log(characters);
+
+	let myCharacters = await Character.getAll(userId);
+
 	console.log(players);
-	res.render('pages/room.ejs', { room: room, players: players });
+	res.render('pages/room.ejs', { room: room, players: players, characters: characters, myCharacters: myCharacters });
+});
+
+router.post('/:roomId/add_character', checkAuthenticated, async (req, res, next) => {
+	let roomId = req.params.roomId;
+	let charId = req.body.my_characters;
+
+	console.log;
+	console.log(charId);
+
+	let result = await Room.addCharacter(roomId, charId);
+
+	res.redirect(`/room/${roomId}`);
+});
+
+router.post('/:roomId/remove_character/:charId', checkAuthenticated, async (req, res) => {
+	let roomId = req.params.roomId;
+	let charId = req.params.charId;
+
+	let result = await Room.removeCharacter(roomId, charId);
+
+	res.redirect(`/room/${roomId}`);
 });
 
 router.post('/join', checkAuthenticated, async (req, res) => {

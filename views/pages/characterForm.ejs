@@ -1,35 +1,37 @@
 <%- include('../partials/head') %>
-<%- include('../partials/navbar') %>
-<h1>Create New Character</h1>
-<% if (messages) { %>
-    <%= messages.error %>
-<% } %>
-<form action="characters/create" method="POST">
-    <div>
-        <label for="name">Name</label>
-        <input type="text" id="name" name="name"required>
-    </div>
-    <div>
-        <label for="class">class</label>
-        <input type="text" id="class" name="class"required>
-    </div>
-    <div>
-        <label for="species">Species</label>
-        <input type="text" id="species" name="species"required>
-    </div>
+<%- include('../partials/loggedInNavbar') %>
 
-    <button type="submit">Create Character</button>
-
-</form>
-
-<h2>Your Characters</h2>
-<ul id="rooms-list">
-    <% for (let i = 0; i <characters.length ; i++) { %>
-        <li> <a href="/character/<%=characters[i].id%>"><%= characters[i].name %></a>   </li>
+<div class="container-md">
+    <h1>Create New Character</h1>
+    <% if (messages) { %>
+        <%= messages.error %>
     <% } %>
-</ul>
-
-<a href="/user">Home</a>
-
-
-</ul>
+    <form action="characters/create" method="POST">
+        <div>
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name"required>
+        </div>
+        <div>
+            <label for="class">class</label>
+            <input type="text" id="class" name="class"required>
+        </div>
+        <div>
+            <label for="species">Species</label>
+            <input type="text" id="species" name="species"required>
+        </div>
+    
+        <button type="submit">Create Character</button>
+    
+    </form>
+    
+    <h2>Your Characters</h2>
+    <ul id="rooms-list">
+        <% for (let i = 0; i <characters.length ; i++) { %>
+            <li> <a href="/character/<%=characters[i].id%>"><%= characters[i].name %></a>   </li>
+        <% } %>
+    </ul>
+    
+    <a href="/user">Home</a>
+    
+    
+    </ul></div>

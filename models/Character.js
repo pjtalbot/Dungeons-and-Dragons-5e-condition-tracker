@@ -31,7 +31,7 @@ class Character {
 
 	static async get(id) {
 		try {
-			console.log('%%%%%%%');
+			console.log('%%%%%%% INSIDE CHARACTER CLASS get()');
 			const result = await db.query(
 				`SELECT *
             FROM characters
@@ -82,9 +82,33 @@ class Character {
 		return result;
 	}
 
+	static async updateAbilityScores(id, scoresObj) {
+		let query = `UPDATE characters
+		SET strength = $1,
+		dexterity = $2,
+		constitution = $3,
+		intelligence = $4,
+		wisdom = $5,
+		charisma = $6
+		WHERE id = $7`;
+
+		let result = await db.query(query, [
+			scoresObj['strength'],
+			scoresObj['dexterity'],
+			scoresObj['constitution'],
+			scoresObj['intelligence'],
+			scoresObj['wisdom'],
+			scoresObj['charisma'],
+			id
+		]);
+
+		return result;
+	}
+
 	static async getResistances(id) {
+		// TODO: This function is repetitive, Character.get() should return the necessary data
 		const result = await db.query(
-			`SELECT *
+			`SELECT resistances
             FROM characters
             WHERE id = $1
 			`,

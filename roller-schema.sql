@@ -7,15 +7,13 @@ DROP DATABASE IF EXISTS roller;
 
 CREATE DATABASE roller;
 
-
-
-
-DROP TABLE IF EXISTS "users";
-DROP TABLE IF EXISTS "rooms";
-DROP TABLE IF EXISTS "user_room";
-DROP TABLE IF EXISTS "characters";
-DROP TABLE IF EXISTS "images";
-DROP TABLE IF EXISTS "cards";
+DROP TABLE IF EXISTS "users" CASCADE;
+DROP TABLE IF EXISTS "rooms" CASCADE;
+DROP TABLE IF EXISTS "user_room" CASCADE;
+DROP TABLE IF EXISTS "character_room" CASCADE;
+DROP TABLE IF EXISTS "characters" CASCADE;
+DROP TABLE IF EXISTS "images" CASCADE;
+DROP TABLE IF EXISTS "cards" CASCADE;
 
 \c roller;
 
@@ -63,7 +61,7 @@ CREATE TABLE "user_room" (
 
 
 CREATE TABLE "characters" (
-    "id" SERIAL   NOT NULL,
+    "id" SERIAL UNIQUE  NOT NULL,
     "name" text,
     "class" text,
     "species" text,
@@ -73,9 +71,26 @@ CREATE TABLE "characters" (
     "max_hp" int,
     "current_hp" int,
     "resistances" text [] DEFAULT array[]::varchar[],
+    "strength" int,
+    "dexterity" int,
+    "constitution" int,
+    "intelligence" int,
+    "wisdom" int,
+    "charisma" int,
     CONSTRAINT "pk_characters" PRIMARY KEY (
         "id","created_by"
      )
+);
+
+CREATE TABLE "character_room" (
+  "character_id" INT
+ ,"room_id" INT
+ ,CONSTRAINT character_room_pk PRIMARY KEY (character_id, room_id)
+ ,CONSTRAINT FK_character
+  FOREIGN KEY (character_id) REFERENCES characters (id)
+  ON DELETE CASCADE
+ ,CONSTRAINT FK_category
+  FOREIGN KEY (room_id) REFERENCES rooms (id) ON DELETE CASCADE
 );
 
 CREATE TABLE "images" (

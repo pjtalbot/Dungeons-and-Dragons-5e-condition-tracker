@@ -26,13 +26,10 @@ router.get('/:charId', checkAuthenticated, async (req, res, next) => {
 
 	for (let c of character.conditions) {
 		let desc = await getDescriptionById(c);
-		console.log('******* DESCRIPTION ******');
-		console.log(desc);
 
 		let newKey = c.toString();
 
 		conditions[newKey] = desc;
-		console.log(conditions);
 	}
 
 	// TODO: for displaying condition rules
@@ -79,6 +76,23 @@ router.post('/:charId/update/conditions', checkAuthenticated, async (req, res) =
 	let conditionId = req.body.condition;
 	let charId = req.params.charId;
 	let result = await Character.addCondition(charId, conditionId);
+	res.redirect(`/character/${charId}`);
+});
+
+router.post('/:charId/update/abilities', checkAuthenticated, async (req, res) => {
+	let charId = req.params.charId;
+	let abilityScores = {};
+	abilityScores['strength'] = +req.body.strength;
+	abilityScores['dexterity'] = +req.body.dexterity;
+	abilityScores['constitution'] = +req.body.constitution;
+	abilityScores['intelligence'] = +req.body.intelligence;
+	abilityScores['wisdom'] = +req.body.wisdom;
+	abilityScores['charisma'] = +req.body.charisma;
+
+	await Character.updateAbilityScores(charId, abilityScores);
+
+	console.log('ABILITY SCORES');
+	console.log(abilityScores);
 	res.redirect(`/character/${charId}`);
 });
 

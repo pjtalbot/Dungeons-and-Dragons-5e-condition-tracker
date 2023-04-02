@@ -1,125 +1,136 @@
 <%- include('../partials/head') %>
-<%- include('../partials/navbar') %>
-<h1>Character Name: <%= character.name %> </h1>
-<h2>Class: <%= character.class %></h2>
-<h2>Species: <%= character.species %></h2>
-<h3>Max HP: <%= character.max_hp %></h3>
-<form action="/character/<%=character.id %>/update/hp" method="POST">
-    <label for="max_hp">Max HP</label>
-<input type="integer" name="max_hp">
-<button>Update Max HP
-</Button>
+<%- include('../partials/LoggedInNavbar') %>
 
-</form>
-<h3>Resistances</h3>
-    <ul>
-        <ul id="resistancesList">
-            <% for (let i = 0; i < character.resistances.length ; i++) { %>
-                <li> <%= character.resistances[i] %> <form action= "/character/<%= character.id%>/remove/resistance/<%= character.resistances[i]%>" method="POST"><button id="remove-resistance">x</button></form></li>
-            <% } %>
-        
-        </ul>
-    </ul>
-
-
-
-<form action="/character/<%=character.id %>/add/resistance" method="POST">
-    <label for="resistances">Add Resistance</label>
-<input type="text" name="resistances">
-<button>Add resistance
-</Button>
-
-</form>
-
-<form action='/character/delete/<%= character.id %>' method="POST">
-    <button class='delete'>Delete Character</button>
-</form>
-<h2>Abilities</h2>
-<ul id="cards">
-    <% for (let i = 0; i < cards.length ; i++) { %>
-        <li> <%= cards[i].name %></a> </li>
-    <% } %>
-  </ul>
-
-<h2>Create New Ability / Weapon / Spell card</h2>
-
-
-
-<% if (messages) { %>
-    <%= messages.error %>
-<% } %>
-<form action="/card/create/<%= character.id %>" method="POST">
-    <div>
-        <label for="name">Name</label>
-        <input type="text" id="name" name="name"required>
+<div class="container-lg">
+    <div class="container-md border">
+        <h1>Character Name: <%= character.name %> </h1>
+    <h2>Class: <%= character.class %></h2>
+    <h2>Species: <%= character.species %></h2>
+    
     </div>
-    <div>
-        <label for="category">Category</label>
-        <input type="text" id="category" name="category">
-    </div>
-    <div>
-        <label for="type">Type</label>
-        <input type="text" id="type" name="type">
-    </div>
-    <div>
-        <label for="properties">Properties</label>
-        <input type="text" id="properties" name="properties">
-    </div>
-    <div>
-        <label for="desc">Description</label>
-        <input type="text" id="desc" name="desc">
-    </div>
-    <div>
-        <label for="damage">Damage</label>
-        <input type="text" id="damage" name="damage">
-    </div>
-    <div>
-        <label for="bonus">Bonus</label>
-        <input type="text" id="bonus" name="bonus">
-    </div>
-
-
-
-
-
-    <button type="submit">Create Ability / Weapon / Spell Card</button>
-
-</form>
-
-<form action="/character/<%= character.id %>/update/conditions" method="POST">
-    <div>
-        
-        <input list="conditions" name="condition">
-        <datalist id="conditions">
-            <% console.log(allConditions.results) %>
-            <% for (let c of allConditions.results) { %>
-             <option value="<%= c.index %>"></option>       
-           <% } %>
-        </datalist>
-    </div>
-    <button type="submit">Add condition</button>
-</form>
-
-<h3>Conditions</h3>
-<ul id="conditionsList">
-    <% for (let c in conditions) { %>
-        <li id="<%= c %>"> <%= c %> - <form action= "/character/<%= character.id%>/remove/condition/<%= c %>" method="POST"><button id="remove-condition">x</button></form> 
-            <ul>
-                <% for (let d in conditions[c]) { %>
-        
-                    <li><%= conditions[c][d] %> </li>
-                
+    
+    
+    <%- include('../partials/characterStats') %>
+    
+    
+    <h3 class="accordion-header">Max HP: <%= character.max_hp %></h3>
+    
+    
+    
+   
+    
+    
+    <h3>Resistances</h3>
+        <ul>
+            <ul id="resistancesList">
+                <% for (let i = 0; i < character.resistances.length ; i++) { %>
+                    <li> <%= character.resistances[i] %> <form action= "/character/<%= character.id%>/remove/resistance/<%= character.resistances[i]%>" method="POST"><button id="remove-resistance">x</button></form></li>
                 <% } %>
-
+            
             </ul>
+        </ul>
+    
+    
+    
 
-        </li>
+    
+ 
+    <h2>Abilities</h2>
+    <ul id="cards">
+        <% for (let i = 0; i < cards.length ; i++) { %>
+            <li> <%= cards[i].name %></a> </li>
+        <% } %>
+      </ul>
+    
+    
+
+    <%- include('../partials/resistancesForm') %>
+
+    <h3>Conditions</h3>
+
+    <%- include('../partials/conditionsList') %>
+    
+    <h2>Create New Ability / Weapon / Spell card</h2>
+    
+    <% if (messages) { %>
+        <%= messages.error %>
     <% } %>
+    <form action="/card/create/<%= character.id %>" method="POST">
+        <div>
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name"required>
+        </div>
+        <div>
+            <label for="category">Category</label>
+            <input type="text" id="category" name="category">
+        </div>
+        <div>
+            <label for="type">Type</label>
+            <input type="text" id="type" name="type">
+        </div>
+        <div>
+            <label for="properties">Properties</label>
+            <input type="text" id="properties" name="properties">
+        </div>
+        <div>
+            <label for="desc">Description</label>
+            <input type="text" id="desc" name="desc">
+        </div>
+        <div>
+            <label for="damage">Damage</label>
+            <input type="text" id="damage" name="damage">
+        </div>
+        <div>
+            <label for="bonus">Bonus</label>
+            <input type="text" id="bonus" name="bonus">
+        </div>
+    
+    
+    
+    
+    
+        <button type="submit">Create Ability / Weapon / Spell Card</button>
+    
+    </form>
+    
+    <%- include('../partials/abilitiesForm.ejs') %>
 
-</ul>
+    <%- include('../partials/maxHPForm') %>
+    
+    <form action="/character/<%= character.id %>/update/conditions" method="POST">
+        <div>
+            
+            <input list="conditions" name="condition">
+            <datalist id="conditions">
+                <% console.log(allConditions.results) %>
+                <% for (let c of allConditions.results) { %>
+                 <option value="<%= c.index %>"></option>       
+               <% } %>
+            </datalist>
+        </div>
+        <button type="submit">Add condition</button>
+    </form>
+    
 
-<form action="/character/<%= character.id %>/removeAll/conditions" method="POST"><button>Remove All Conditions</button></form>
+
+    <div class="container-md border px-2">
+        <form action='/character/delete/<%= character.id %>' method="POST">
+            <button class='btn-danger'>Delete Character</button>
+        </form>
+
+    </div>
 
 
-<a href="/user/characters">Characters</a>
-<a href="/user/rooms">Rooms</a>
+    
+    
+    
+        <a href="/user/characters">Characters</a>
+        <a href="/user/rooms">Rooms</a>
+    
+    </div>
+    
+    
+
+
+</div>
+

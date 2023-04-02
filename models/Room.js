@@ -43,6 +43,32 @@ class Room {
 		return room;
 	}
 
+	static async getCharacters(roomId) {
+		let query = `SELECT character_id FROM character_room
+		WHERE room_id = $1`;
+		const result = await db.query(query, roomId);
+	}
+
+	static async addCharacter(roomId, characterId) {
+		let result = db.query(
+			`INSERT INTO character_room (room_id, character_id)
+		VALUES ($1, $2)`,
+			[ roomId, characterId ]
+		);
+
+		return result;
+	}
+
+	static async removeCharacter(roomId, characterId) {
+		let result = db.query(
+			`DELETE FROM character_room WHERE room_id = $1
+			AND character_id = $2`,
+			[ roomId, characterId ]
+		);
+
+		return result;
+	}
+
 	static async delete(id) {
 		const result = await db.query(
 			`DELETE

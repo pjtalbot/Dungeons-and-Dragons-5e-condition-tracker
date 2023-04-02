@@ -71,6 +71,11 @@ CREATE TABLE "characters" (
     "max_hp" int,
     "current_hp" int,
     "resistances" text [] DEFAULT array[]::varchar[],
+    "strength" int,
+    "dexterity" int,
+    "intelligence" int,
+    "wisdom" int,
+    "charisma" int,
     CONSTRAINT "pk_characters" PRIMARY KEY (
         "id","created_by"
      )

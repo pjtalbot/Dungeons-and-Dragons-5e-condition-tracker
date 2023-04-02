@@ -1,0 +1,28 @@
+<div class="accordion" id="conditionsAccordion">
+    
+    <% for (let c in conditions) { %>
+        <div class="accordion-item-<%=c%>">
+            <h2 class="accordion-header" id="headingOne">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    <%= c %> - <form action= "/character/<%= character.id%>/remove/condition/<%= c %>" method="POST"><button id="remove-condition" class="btn-danger">x</button></form>
+    
+                </button>
+            </h2>
+            <div id="collapse <%= c %>" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#conditionsAccordion">
+                <div class="accordion-body">
+                    <ul>
+                        <% for (let d in conditions[c]) { %>
+                            
+                
+                            <li><%= conditions[c][d] %> </li>
+                        
+                        <% } %>
+        
+                    </ul>
+        
+                </div>
+
+    <% } %>
+
+    </div> 
+    <form action="/character/<%= character.id %>/removeAll/conditions" method="POST"><button>Remove All Conditions</button></form>

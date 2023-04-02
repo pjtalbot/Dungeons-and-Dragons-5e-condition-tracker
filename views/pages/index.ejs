@@ -1,13 +1,15 @@
 
 <%- include('../partials/head') %>
-<%- include('../partials/navbar') %>
-<% if (messages) { %>
-  <%= messages.info %>
-<% } %>
+<%- include('../partials/loggedInNavbar') %>
 
-<h1>Hi <%= name %></h1>
-<form action="/logout?_method=DELETE" method="POST">
-  <button type="submit">Log Out</button>
-</form>
+
+<div class="container">
+  <!-- <% if (messages) { %>
+    <%= messages.info %>
+  <% } %> -->
+  <h1>Hi <%= name %></h1>
 <a href="/user/characters">Characters</a>
 <a href="/user/rooms">Rooms</a>
+
+</div>
+

@@ -27,6 +27,18 @@ const getPlayersInRoom = async (roomId) => {
 	return result;
 };
 
+const getCharactersInRoom = async (roomId) => {
+	let result = await db.query(
+		`SELECT characters.id, characters.name, characters.conditions FROM characters LEFT JOIN character_room
+    ON characters.id = character_room.character_id WHERE character_room.room_id = $1`,
+		[ roomId ]
+	);
+
+	console.log(result);
+
+	return result;
+};
+
 async function checkEmailIsAvailable(email) {
 	let result = await db.query(`SELECT email FROM users WHERE email = $1`, [ email ]);
 	if (result.rows.length > 0) {
@@ -50,4 +62,10 @@ const dropRowFromDb = async (Model, userId) => {
 		[ roomId ]
 	)).rows;
 };
-module.exports = { getPlayersInRoom, checkRowExists, checkEmailIsAvailable, checkUsernameIsAvailable };
+module.exports = {
+	getPlayersInRoom,
+	checkRowExists,
+	checkEmailIsAvailable,
+	checkUsernameIsAvailable,
+	getCharactersInRoom
+};

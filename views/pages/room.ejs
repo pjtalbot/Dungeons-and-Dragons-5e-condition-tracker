@@ -1,6 +1,8 @@
 <%- include('../partials/head') %>
-<%- include('../partials/navbar') %>
-<h1>Room Id:<%= room.id %> </h1>
+<%- include('../partials/loggedInNavbar') %>
+
+<div class="container">
+  <h1>Room Id:<%= room.id %> </h1>
 <h2>Room Name: <%= room.name %></h2>
 
 <h3>Players</h3>
@@ -9,7 +11,36 @@
       <li> <a href="/character/<%=players[i].id%>"><%= players[i].name %></a> </li>
   <% } %>
 </ul>
+
+<h3>Characters</h3>
+<ul id="characters">
+  <% for (let c of characters.rows) { %>
+      <li> <%= c.name %> - <form action="/room/<%= room.id %>/remove_character/<%= c.id %>" method="POST"><button class="btn-danger" type="submit">x</button></form>
+        <ul> 
+        <% for (let condition of c.conditions) { %>
+          <li> <%= condition %></li>
+          <% } %>
+      </ul>
+      </li>
+  <% } %>
+
+  
+</ul>
 <!-- Insert div of chatroom -->
+
+<form action="/room/<%= room.id %>/add_character" method="POST">
+  <div>
+      
+      <input list="my_characters" name="my_characters">
+      <datalist id="my_characters">
+          <% console.log(myCharacters) %>
+          <% for (let c of myCharacters) { %>
+           <option value="<%= c.id %>"><%= c.name %> </option>       
+         <% } %>
+      </datalist>
+  </div>
+  <button type="submit">Add Character</button>
+</form>
 
 <form action='/room/delete/<%= room.id %>' method="POST">
   <button class='delete'>Delete Room</button>
@@ -17,3 +48,5 @@
 
 <a href="/user/characters">Characters</a>
 <a href="/user/rooms">Rooms</a>
+
+</div>

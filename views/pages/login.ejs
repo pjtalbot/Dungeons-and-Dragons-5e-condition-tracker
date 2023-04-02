@@ -1,20 +1,31 @@
 <%- include('../partials/head') %>
 <%- include('../partials/navbar') %>
-<h1>Login</h1>
+<!-- TODO: Add capslock on -->
+
+<div class="container">
+    <h1 class="3 mb-3 font-weight-normal">Login</h1>
 <% if (messages) { %>
     <%= messages.error %>
 <% } %>
-<form action="/login" method="POST">
-    <div>
-        <label for="email">email</label>
-        <input type="email" id="email" name="email"required>
-    </div>
-    <div>
-        <label for="password">password</label>
-        <input type="password" id="password" name="password"required>
-    </div>
 
-    <button type="submit">Login</button>
+<div class="container-md ">
+    <form action="/login" method="POST">
+        <div>
+            <label for="email" class="sr-only">email</label>
+            <input type="email" id="email" name="email"required class="form-control">
+        </div>
+        <div>
+            <label for="password">password</label>
+            <input class="form-control"type="password" id="password" name="password"required>
+        </div>
+    
+        <button class="btn-primary"type="submit">Login</button>
+    
+    </form>
+    <a href="/register">Don't have an account? Sign Up</a>
 
-</form>
-<a href="/register">SignUp</a>
+</div>
+
+
+
+</div>

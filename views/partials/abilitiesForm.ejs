@@ -1,0 +1,24 @@
+<div class="container-md border">
+    <form class="form-group"action="/character/<%= character.id %>/update/abilities" method="POST" id="abilities_form">
+        <div class="form-group">
+            <label for="strength">Strength</label>
+        <input type="number" name="strength" min="0" max="40">
+        <label for="dexterity">Dexterity</label>
+        <input type="number" name="dexterity" min="0" max="40">
+        <label for="constitution">Constitution</label>
+        <input type="number" name="constitution" min="0" max="40">
+        <label for="intelligence">intelligence</label>
+        <input type="number" name="intelligence" min="0" max="40">
+        <label for="wisdom">Wisdom</label>
+        <input type="number" name="wisdom" min="0" max="40">
+        <label for="charisma">Charisma</label>
+        <input type="number" name="charisma" min="0" max="40">
+    
+        </div>
+        
+    
+        <button type="submit" class="btn btn-primary">Update Ability Scores</button>
+        
+    </form>
+    
+</div>
