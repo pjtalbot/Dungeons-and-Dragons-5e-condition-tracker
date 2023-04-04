@@ -69,8 +69,12 @@ app.use('/room', roomRoutes);
 app.use('/character', characterRoutes);
 app.use('/card', cardRoutes);
 
-app.get('/', checkNotAuthenticated, (req, res) => {
-	res.redirect('/login');
+app.get('/', (req, res) => {
+	if (req.isAuthenticated()) {
+		res.redirect('/user');
+	} else {
+		res.redirect('/login');
+	}
 });
 
 app.delete('/logout', (req, res) => {

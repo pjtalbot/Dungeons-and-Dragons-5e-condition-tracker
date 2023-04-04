@@ -1,0 +1,13 @@
+<form action="/character/<%= character.id %>/update/conditions" method="POST">
+    <div>
+        
+        <input list="conditions" name="condition">
+        <datalist id="conditions">
+            <% console.log(allConditions.results) %>
+            <% for (let c of allConditions.results) { %>
+             <option value="<%= c.index %>"></option>       
+           <% } %>
+        </datalist>
+    </div>
+    <button type="submit">Add condition</button>
+</form>

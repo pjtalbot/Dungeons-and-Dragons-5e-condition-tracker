@@ -1,0 +1,15 @@
+<div class="card border" style="width: 18rem"id="character-card-<%= character.id %>">
+    
+    <div class="h3"><%= character.name %></div>
+    <h4 class="h4">HP: <%=character.current_hp %> / <%=character.max_hp %> </h4>
+    <%- include('../partials/currentHPForm', {id: character.id}) %>
+    <% for (let condition in character.conditions ) { %>
+        <% console.log( character.conditions ) %>
+        <%- include('../partials/conditionsList', {character: character, conditions: character.conditions}) %>
+        
+    <% } %>
+
+    <%- include('../partials/conditionForm') %>
+    
+
+</div>

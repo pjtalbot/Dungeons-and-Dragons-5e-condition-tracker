@@ -8,4 +8,10 @@ TODOs
     "Cards"
     Cards are a versatile component representing Spells, Attacks
 
-    Rules - 
+    Change "datalist" input types to select
+
+    BUG - when logged in if you enter the base route, you get a loop of redirects
+
+    Caps lock is on warning
+
+    

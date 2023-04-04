@@ -29,12 +29,10 @@ const getPlayersInRoom = async (roomId) => {
 
 const getCharactersInRoom = async (roomId) => {
 	let result = await db.query(
-		`SELECT characters.id, characters.name, characters.conditions FROM characters LEFT JOIN character_room
+		`SELECT * FROM characters LEFT JOIN character_room
     ON characters.id = character_room.character_id WHERE character_room.room_id = $1`,
 		[ roomId ]
 	);
-
-	console.log(result);
 
 	return result;
 };

@@ -13,19 +13,26 @@
 </ul>
 
 <h3>Characters</h3>
-<ul id="characters">
+<div id="characters" class="container border">
   <% for (let c of characters.rows) { %>
-      <li> <%= c.name %> - <form action="/room/<%= room.id %>/remove_character/<%= c.id %>" method="POST"><button class="btn-danger" type="submit">x</button></form>
-        <ul> 
-        <% for (let condition of c.conditions) { %>
+    <div class="card-body">
+      <p> <%= c.name %> - <form action="/room/<%= room.id %>/remove_character/<%= c.id %>" method="POST"><button class="btn-danger" type="submit">x</button></form>
+        <% console.log(c) %>
+        <%- include('../partials/characterCard', {character: c})%>
+        <h5 for="conditions-list-card">Conditions:</h5>
+        <ul id="conditions-list-card"> 
+         
+        <% for (let condition in c.conditions) { %>
           <li> <%= condition %></li>
           <% } %>
       </ul>
-      </li>
+    </p>
+    </div>
+
   <% } %>
 
   
-</ul>
+    </div>
 <!-- Insert div of chatroom -->
 
 <form action="/room/<%= room.id %>/add_character" method="POST">

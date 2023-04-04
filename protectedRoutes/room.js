@@ -11,6 +11,7 @@ const Character = require('../models/Character');
 
 const { checkForId } = require('../helpers/general');
 const { getPlayersInRoom, checkRowExists, getCharactersInRoom } = require('../helpers/dbHelpers');
+const { getDescriptionById, getAllConditions } = require('../dndapi/dndApi');
 
 router.get('/:roomId', checkAuthenticated, async (req, res, next) => {
 	let roomId = req.params.roomId;
@@ -22,12 +23,38 @@ router.get('/:roomId', checkAuthenticated, async (req, res, next) => {
 	let players = await getPlayersInRoom(roomId);
 
 	let characters = await getCharactersInRoom(roomId);
-	console.log(characters);
+
+	for (let character in characters.rows) {
+		let tempConditions = {};
+		console.log('IN CHARACTERS LOOP');
+		console.log(characters.rows[character]);
+		for (let c in characters.rows[character].conditions) {
+			console.log('condition Id:');
+			let conditionId = characters.rows[character].conditions[c];
+			console.log(characters.rows[character].conditions[c]);
+			console.log(c);
+			let desc = await getDescriptionById(conditionId);
+			console.log(desc);
+
+			tempConditions[`${conditionId}`] = desc;
+			// characters.rows[character].conditions[conditionId];
+		}
+		characters.rows[character].conditions = tempConditions;
+	}
+
+	let allConditions = await getAllConditions();
 
 	let myCharacters = await Character.getAll(userId);
+	console.log(characters);
 
 	console.log(players);
-	res.render('pages/room.ejs', { room: room, players: players, characters: characters, myCharacters: myCharacters });
+	res.render('pages/room.ejs', {
+		room: room,
+		players: players,
+		characters: characters,
+		myCharacters: myCharacters,
+		allConditions: allConditions
+	});
 });
 
 router.post('/:roomId/add_character', checkAuthenticated, async (req, res, next) => {

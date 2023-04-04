@@ -72,6 +72,16 @@ router.post('/:charId/update/hp', checkAuthenticated, async (req, res) => {
 	res.redirect(`/character/${charId}`);
 });
 
+router.post('/:charId/update/current_hp', checkAuthenticated, async (req, res) => {
+	// TODO: best way to avoid redirect here and re-render. EJS with jQuery?
+	// or pass roomId for redirect?
+	let charId = req.params.charId;
+	let currentHP = req.body.current_hp;
+	let result = await Character.updateCurrentHP(charId, currentHP);
+
+	res.redirect(`/character/${charId}`);
+});
+
 router.post('/:charId/update/conditions', checkAuthenticated, async (req, res) => {
 	let conditionId = req.body.condition;
 	let charId = req.params.charId;

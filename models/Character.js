@@ -74,6 +74,17 @@ class Character {
 		return result;
 	}
 
+	static async updateCurrentHP(id, hp) {
+		const result = await db.query(
+			`
+		UPDATE characters
+		SET current_hp = $1
+		WHERE id = $2`,
+			[ hp, id ]
+		);
+		return result;
+	}
+
 	static async addResistance(id, resistance) {
 		let query = `UPDATE characters
 		SET resistances = ARRAY_APPEND(resistances, $1)
