@@ -16,15 +16,12 @@
     <h3 class="accordion-header">Max HP: <%= character.max_hp %></h3>
     
     
-    
-   
-    
-    
     <h3>Resistances</h3>
         <ul>
             <ul id="resistancesList">
                 <% for (let i = 0; i < character.resistances.length ; i++) { %>
-                    <li> <%= character.resistances[i] %> <form action= "/character/<%= character.id%>/remove/resistance/<%= character.resistances[i]%>" method="POST"><button id="remove-resistance">x</button></form></li>
+                    <% console.log(character) %>
+                    <li> <%= character.resistances[i] %> <form action= "/character/<%= character.id%>/remove/resistance/<%= character.resistances[i]%>" method="POST"><button class="btn btn-danger"id="remove-resistance">x</button></form></li>
                 <% } %>
             
             </ul>
@@ -34,70 +31,21 @@
     
 
     
- 
-    <h2>Abilities</h2>
-    <ul id="cards">
-        <% for (let i = 0; i < cards.length ; i++) { %>
-            <li> <%= cards[i].name %></a> </li>
-        <% } %>
-      </ul>
+
+
+
     
     
 
-    <%- include('../partials/resistancesForm') %>
-
-    <h3>Conditions</h3>
-
-    <%- include('../partials/conditionsList') %>
-    
-    <h2>Create New Ability / Weapon / Spell card</h2>
-    
-    <% if (messages) { %>
-        <%= messages.error %>
-    <% } %>
-    <form action="/card/create/<%= character.id %>" method="POST">
-        <div>
-            <label for="name">Name</label>
-            <input type="text" id="name" name="name"required>
-        </div>
-        <div>
-            <label for="category">Category</label>
-            <input type="text" id="category" name="category">
-        </div>
-        <div>
-            <label for="type">Type</label>
-            <input type="text" id="type" name="type">
-        </div>
-        <div>
-            <label for="properties">Properties</label>
-            <input type="text" id="properties" name="properties">
-        </div>
-        <div>
-            <label for="desc">Description</label>
-            <input type="text" id="desc" name="desc">
-        </div>
-        <div>
-            <label for="damage">Damage</label>
-            <input type="text" id="damage" name="damage">
-        </div>
-        <div>
-            <label for="bonus">Bonus</label>
-            <input type="text" id="bonus" name="bonus">
-        </div>
+    <%- include('../partials/resistancesForm', {allDamageTypes: allDamageTypes}) %>
     
     
     
-    
-    
-        <button type="submit">Create Ability / Weapon / Spell Card</button>
-    
-    </form>
-    
-    <%- include('../partials/abilitiesForm.ejs') %>
+    <%- include('../partials/abilitiesForm.ejs', {character: character}) %>
 
     <%- include('../partials/maxHPForm') %>
     
-    <%- include('../partials/conditionForm', {character: character, allConditions: allConditions}) %>
+
     
 
 
@@ -105,44 +53,5 @@
         <form action='/character/delete/<%= character.id %>' method="POST">
             <button class='btn-danger'>Delete Character</button>
         </form>
-
-    </div>
-
-    
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-    Launch static backdrop modal
-  </button>
-  
-  <!-- Modal -->
-  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          ...
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Understood</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-    
-    
-    
-        <a href="/user/characters">Characters</a>
-        <a href="/user/rooms">Rooms</a>
-    
-    </div>
-    
-    
-
-
 </div>
 

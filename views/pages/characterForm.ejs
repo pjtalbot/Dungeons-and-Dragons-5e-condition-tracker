@@ -6,21 +6,21 @@
     <% if (messages) { %>
         <%= messages.error %>
     <% } %>
-    <form action="characters/create" method="POST">
+    <form class="form" action="characters/create" method="POST">
         <div>
-            <label for="name">Name</label>
-            <input type="text" id="name" name="name"required>
+            <label class="form-label"for="name">Name</label>
+            <input class="form-control" type="text" id="name" name="name"required>
         </div>
         <div>
-            <label for="class">class</label>
-            <input type="text" id="class" name="class"required>
+            <label class="form-label" for="class">Class</label>
+            <input class="form-control"type="text" id="class" name="class">
         </div>
         <div>
-            <label for="species">Species</label>
-            <input type="text" id="species" name="species"required>
+            <label class="form-label" for="species">Species</label>
+            <input class="form-control" type="text" id="species" name="species">
         </div>
     
-        <button type="submit">Create Character</button>
+        <button class="btn btn-primary" type="submit">Create Character</button>
     
     </form>
     
@@ -30,8 +30,6 @@
             <li> <a href="/character/<%=characters[i].id%>"><%= characters[i].name %></a>   </li>
         <% } %>
     </ul>
-    
-    <a href="/user">Home</a>
     
     
     </ul></div>

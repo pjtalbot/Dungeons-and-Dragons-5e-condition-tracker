@@ -9,21 +9,21 @@
 <h2>Join Room</h2>
 <form action="/room/join" method="POST">
     <div>
-        <label for="room_id">Join with Room ID</label>
-        <input type="text" id="room_id" name="room_id"required>
+        <label class="form-label"for="room_id">Join with Room ID</label>
+        <input type="number" id="room_id" name="room_id"required>
     </div>
 
-    <button type="submit">Join Room</button>
+    <button class="btn btn-primary" type="submit">Join Room</button>
 
 </form>
 <h2>Create Room</h2>
-<form action="rooms/create" method="POST">
+<form class="form"action="rooms/create" method="POST">
     <div>
-        <label for="name">Room Name</label>
+        <label class="form-label" for="name">Room Name</label>
         <input type="text" id="name" name="name"required>
     </div>
 
-    <button type="submit">Create Room</button>
+    <button class="btn btn-primary"type="submit">Create Room</button>
 
 </form>
 

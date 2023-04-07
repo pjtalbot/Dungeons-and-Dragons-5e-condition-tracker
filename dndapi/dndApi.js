@@ -23,7 +23,7 @@ const getDescriptionById = async (id) => {
 // }
 
 const getAllMonsters = async () => {
-	let monsters = await axios.get(`${BASE_URL}/conditions`);
+	let monsters = await axios.get(`${BASE_URL}/monsters`);
 
 	console.log(monsters.data);
 	return monsters.data;
@@ -37,6 +37,11 @@ const getAllSpells = async () => {
 const getAllSpellsByLevel = async (level) => {
 	let spells = await axios.get(`${BASE_URL}/spells?level=${level}`);
 	return spells.data;
+};
+
+const getAllDamageTypes = async () => {
+	let damageType = await axios.get(`${BASE_URL}/damage-types`);
+	return damageType.data;
 };
 
 const getSpellByIndex = async (index) => {
@@ -61,5 +66,6 @@ module.exports = {
 	getAllSpells,
 	getAllSpellsByLevel,
 	getSpellByIndex,
-	getRuleByIndex
+	getRuleByIndex,
+	getAllDamageTypes
 };

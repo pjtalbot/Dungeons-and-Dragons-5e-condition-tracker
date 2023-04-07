@@ -10,9 +10,6 @@ const { body, validationResult } = require('express-validator');
 const dnd = require('dnd-api-remastered');
 
 router.get('/', checkNotAuthenticated, async (req, res) => {
-	// const response = await monster.get('Cat');
-
-	// console.log(response);
 	const conditionResponse = await dnd.Conditions.get('blinded');
 	console.log(conditionResponse);
 

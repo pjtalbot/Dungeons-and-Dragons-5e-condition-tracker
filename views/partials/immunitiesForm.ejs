@@ -1,14 +1,16 @@
+<!-- NOT IMPLEMENTED YET -->
+
 <div class="container-md border">
-    <form action="/character/<%=character.id %>/add/resistance" method="POST">
-        <label for="resistances-selector">Add Resistance</label>
+    <form action="/character/<%=character.id %>/add/immunity" method="POST">
+        <label for="immunities">Add Immunity</label>
     <div class="select">
-        <select name="resistances" id="resistances-selector">
+        <select name="immunities-selector" id="immunities-selector">
             <% for (let damageType of allDamageTypes.results) { %>
                 <option value="<%= damageType.index %>"><%= damageType.index %></option>       
               <% } %>
         </select>
     </div>
-    <button class="btn btn-dark">Add Resistance
+    <button>Add Immunity
     </Button>
     
     </form>

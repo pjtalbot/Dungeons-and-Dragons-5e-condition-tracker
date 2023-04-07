@@ -1,13 +1,11 @@
-<form action="" method="POST">
+<form action="/room/<%= room.id %>/add_character" method="POST">
     <div>
-        
-        <input list="user-characters" name="condition">
-        <datalist id="user-characters">
+        <select id="user-characters" name="my_character">
             <% console.log(myCharacters.results) %>
             <% for (let myChar of myCharacters) { %>
-             <option value="<%= myChar.name %>"></option>       
+             <option value="<%= myChar.id %>"><%= myChar.name %> </option>       
            <% } %>
-        </datalist>
+        </select>
     </div>
-    <button type="submit">Add Character</button>
+    <button class="btn btn-primary"type="submit">Add Character</button>
 </form>

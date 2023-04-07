@@ -6,7 +6,7 @@ const bcrypt = require('bcrypt');
 const db = require('../db.js');
 const yup = require('yup');
 
-const { getAllConditions, getDescriptionById } = require('../dndapi/dndApi');
+const { getAllConditions, getDescriptionById, getAllDamageTypes } = require('../dndapi/dndApi');
 
 const Character = require('../models/Character');
 const Card = require('../models/Card');
@@ -21,6 +21,7 @@ router.get('/:charId', checkAuthenticated, async (req, res, next) => {
 	let cards = await Card.getAllByCharacter(charId);
 
 	let allConditions = await getAllConditions();
+	let allDamageTypes = await getAllDamageTypes();
 
 	let conditions = {};
 
@@ -44,7 +45,8 @@ router.get('/:charId', checkAuthenticated, async (req, res, next) => {
 		currentUser: currentUser,
 		cards: cards,
 		conditions: conditions,
-		allConditions: allConditions
+		allConditions: allConditions,
+		allDamageTypes: allDamageTypes
 	});
 });
 
@@ -72,21 +74,27 @@ router.post('/:charId/update/hp', checkAuthenticated, async (req, res) => {
 	res.redirect(`/character/${charId}`);
 });
 
-router.post('/:charId/update/current_hp', checkAuthenticated, async (req, res) => {
+router.post('/:charId/update/current_hp/:roomId', checkAuthenticated, async (req, res) => {
 	// TODO: best way to avoid redirect here and re-render. EJS with jQuery?
 	// or pass roomId for redirect?
 	let charId = req.params.charId;
 	let currentHP = req.body.current_hp;
+	let roomId = req.params.roomId;
 	let result = await Character.updateCurrentHP(charId, currentHP);
+	console.log('THIS IS THE REQ');
+	console.log(req);
 
-	res.redirect(`/character/${charId}`);
+	res.redirect(`/room/${roomId}`);
 });
 
-router.post('/:charId/update/conditions', checkAuthenticated, async (req, res) => {
+router.post('/:charId/update/conditions/:roomId', checkAuthenticated, async (req, res) => {
 	let conditionId = req.body.condition;
+	console.log('CONDITION ID:');
+	console.log(conditionId);
 	let charId = req.params.charId;
+	let roomId = req.params.roomId;
 	let result = await Character.addCondition(charId, conditionId);
-	res.redirect(`/character/${charId}`);
+	res.redirect(`/room/${roomId}`);
 });
 
 router.post('/:charId/update/abilities', checkAuthenticated, async (req, res) => {
@@ -138,30 +146,32 @@ router.post('/:charId/remove/resistance/:resistance', checkAuthenticated, async 
 	}
 });
 
-router.post('/:charId/remove/condition/:condition', checkAuthenticated, async (req, res) => {
+router.post('/:charId/remove/condition/:condition/:roomId', checkAuthenticated, async (req, res) => {
 	try {
 		// TODO: remove conditions broken
 		let conditionId = req.params.condition;
 		let charId = req.params.charId;
+		let roomId = req.params.roomId;
 		console.log('******REMOVE CONDITIONS*****');
 		// let conditionsArr = await Character
 		let result = await Character.removeCondition(charId, conditionId);
-		res.redirect(`/character/${charId}`);
+		res.redirect(`/room/${roomId}`);
 	} catch (e) {
 		console.log(e);
 	}
 });
 
 // Removes all conditions
-router.post('/:charId/removeAll/conditions', checkAuthenticated, async (req, res) => {
+router.post('/:charId/removeAll/conditions/:roomId', checkAuthenticated, async (req, res) => {
 	try {
 		// TODO: remove conditions broken
 		let conditionId = req.body.condition;
 		let charId = req.params.charId;
+		let roomId = req.params.roomId;
 		console.log('******REMOVE CONDITIONS*****');
 		// let conditionsArr = await Character
 		let result = await Character.removeAllConditions(charId);
-		res.redirect(`/character/${charId}`);
+		res.redirect(`/room/${roomId}`);
 	} catch (e) {
 		console.log(e);
 	}

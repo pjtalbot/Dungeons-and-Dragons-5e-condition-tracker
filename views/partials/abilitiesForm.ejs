@@ -2,17 +2,22 @@
     <form class="form-group"action="/character/<%= character.id %>/update/abilities" method="POST" id="abilities_form">
         <div class="form-group">
             <label for="strength">Strength</label>
-        <input type="number" name="strength" min="0" max="40">
+        <input type="number" name="strength" min="0" max="40" value=<%= character.strength %>>
         <label for="dexterity">Dexterity</label>
-        <input type="number" name="dexterity" min="0" max="40">
+        <input type="number" name="dexterity" min="0" max="40"
+        value=<%= character.dexterity%> >
         <label for="constitution">Constitution</label>
-        <input type="number" name="constitution" min="0" max="40">
+        <input type="number" name="constitution" min="0" max="40"
+        value=<%= character.constitution%> >
         <label for="intelligence">intelligence</label>
-        <input type="number" name="intelligence" min="0" max="40">
+        <input type="number" name="intelligence" min="0" max="40"
+        value=<%= character.intelligence%>>
         <label for="wisdom">Wisdom</label>
-        <input type="number" name="wisdom" min="0" max="40">
+        <input type="number" name="wisdom" min="0" max="40"
+        value=<%= character.wisdom%>>
         <label for="charisma">Charisma</label>
-        <input type="number" name="charisma" min="0" max="40">
+        <input type="number" name="charisma" min="0" max="40"
+        value=<%= character.charisma%>>
     
         </div>
         

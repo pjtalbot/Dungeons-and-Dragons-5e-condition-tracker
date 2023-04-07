@@ -1,15 +1,18 @@
-<div class="card border" style="width: 18rem"id="character-card-<%= character.id %>">
-    
-    <div class="h3"><%= character.name %></div>
-    <h4 class="h4">HP: <%=character.current_hp %> / <%=character.max_hp %> </h4>
-    <%- include('../partials/currentHPForm', {id: character.id}) %>
-    <% for (let condition in character.conditions ) { %>
-        <% console.log( character.conditions ) %>
-        <%- include('../partials/conditionsList', {character: character, conditions: character.conditions}) %>
+
+<div class="col" >
+    <div class="card" id="character-card-<%= character.id %>">
         
-    <% } %>
-
-    <%- include('../partials/conditionForm') %>
-    
-
+            
+            <div class="card-body">
+                <h5 class="card-title"><%= character.name %></h5>
+                <h4 class="h6">HP: <%=character.current_hp %> / <%=character.max_hp %> </h4>
+                <%- include('../partials/currentHPForm', {id: character.id, room: room}) %>
+                <% for (let condition in character.conditions ) { %>
+                    <% console.log( character.conditions ) %>
+                <% } %>
+                <%- include('../partials/conditionsList', {character: character, conditions: character.conditions}) %>
+                <%- include('../partials/conditionForm', {character: character, room: room}) %>
+                <form action="/room/<%= room.id %>/remove_character/<%= character.id %>" method="POST"><button class="btn btn-danger" type="submit">Remove Character</button></form>
+            </div>
+    </div>
 </div>

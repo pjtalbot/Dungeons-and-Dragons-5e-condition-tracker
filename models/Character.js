@@ -38,8 +38,6 @@ class Character {
             WHERE id = $1`,
 				[ id ]
 			);
-			console.log('**********');
-			console.log(result);
 
 			if (!result.rows[0]) {
 				console.log('EEEEE');
@@ -92,6 +90,17 @@ class Character {
 		let result = await db.query(query, [ resistance, id ]);
 		return result;
 	}
+
+	// static async addImmunity(id, resistance) {
+	// 	let query = `UPDATE characters
+	// 	SET resistances = ARRAY_APPEND(resistances, $1)
+	// 	WHERE id = $2`;
+	// 	let result = await db.query(query, [ resistance, id ]);
+	// 	return result;
+	// }
+
+	// FOR DEV: use if error occurs in adding resistance. user has little need for this functionality, since resistances are relatively static in D&D combat
+	// UPDATE characters SET resistances = ARRAY[]::text[] WHERE id = 40;
 
 	static async updateAbilityScores(id, scoresObj) {
 		let query = `UPDATE characters

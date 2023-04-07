@@ -1,4 +1,4 @@
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+<button type="button" style="width: 8rem" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">
     <%= condition %>
   </button>
   
@@ -22,8 +22,7 @@
             </ul>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
+            <form action= "/character/<%= character.id%>/remove/condition/<%= condition %>/<%= room.id %>" method="POST"><button id="remove-condition" class="btn btn-danger">Remove Condition</button></form>
         </div>
       </div>
     </div>

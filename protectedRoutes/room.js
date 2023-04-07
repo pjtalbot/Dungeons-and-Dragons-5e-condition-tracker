@@ -59,11 +59,22 @@ router.get('/:roomId', checkAuthenticated, async (req, res, next) => {
 
 router.post('/:roomId/add_character', checkAuthenticated, async (req, res, next) => {
 	let roomId = req.params.roomId;
-	let charId = req.body.my_characters;
-
-	console.log;
+	let charId = req.body.my_character;
 	console.log(charId);
 
+	// check that character is not already in room.
+	let charactersInRoom = (await getCharactersInRoom(roomId)).rows;
+	console.log('CHARACTERS IN ROOM');
+	console.log(charactersInRoom);
+
+	for (let character of charactersInRoom) {
+		if (+charId == character.id) {
+			console.log(charId);
+			console.log(character.id);
+			// add flash message
+			return res.redirect(`/room/${roomId}`);
+		}
+	}
 	let result = await Room.addCharacter(roomId, charId);
 
 	res.redirect(`/room/${roomId}`);
@@ -99,6 +110,7 @@ router.post('/join', checkAuthenticated, async (req, res) => {
 			console.log(result);
 			res.redirect(`/room/${roomId}`);
 		} else {
+			// TODO: add flash message
 			res.redirect(`/room/${roomId}`);
 		}
 	} else {

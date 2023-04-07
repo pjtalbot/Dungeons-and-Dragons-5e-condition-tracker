@@ -1,5 +1,6 @@
 // A Card will represent anything a Player can "Do", "Have" or can just be customized as a easy rule reference
 
+// NOT IMPLEMENTED
 const db = require('../db');
 const bcrypt = require('bcrypt');
 const ExpressError = require('express');
