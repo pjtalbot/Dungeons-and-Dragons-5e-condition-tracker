@@ -18,6 +18,9 @@ router.get('/:charId', checkAuthenticated, async (req, res, next) => {
 
 	let character = await Character.get(charId);
 
+	let rooms = (await Character.getRooms(charId)).rows;
+	console.log(rooms);
+
 	let cards = await Card.getAllByCharacter(charId);
 
 	let allConditions = await getAllConditions();
@@ -46,7 +49,8 @@ router.get('/:charId', checkAuthenticated, async (req, res, next) => {
 		cards: cards,
 		conditions: conditions,
 		allConditions: allConditions,
-		allDamageTypes: allDamageTypes
+		allDamageTypes: allDamageTypes,
+		rooms: rooms
 	});
 });
 
@@ -56,6 +60,18 @@ router.post('/create/:charId', checkAuthenticated, async (req, res) => {
 	let formData = await req.body;
 
 	res.redirect(`room/${formData.name}`);
+});
+
+router.post('/duplicate/:charId', checkAuthenticated, async (req, res) => {
+	// TODO: What was I doing here?
+	// Is this route even used?
+	let charId = req.params.charId;
+	let newName = req.body.newName;
+	let newCharacter = await Character.duplicate(charId, newName);
+
+	console.log(newCharacter.id);
+
+	res.redirect(`/character/${newCharacter.id}`);
 });
 
 router.post('/delete/:charId', checkAuthenticated, async (req, res) => {
@@ -95,6 +111,13 @@ router.post('/:charId/update/conditions/:roomId', checkAuthenticated, async (req
 	let roomId = req.params.roomId;
 	let result = await Character.addCondition(charId, conditionId);
 	res.redirect(`/room/${roomId}`);
+});
+
+router.post('/:charId/update/ac', checkAuthenticated, async (req, res) => {
+	let charId = req.params.charId;
+	let ac = req.body.ac;
+	let result = await Character.updateAC(charId, ac);
+	res.redirect(`/character/${charId}`);
 });
 
 router.post('/:charId/update/abilities', checkAuthenticated, async (req, res) => {

@@ -1,9 +1,9 @@
-<button type="button" style="width: 8rem" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+<button type="button" style="width: 8rem" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal-<%= condition %>">
     <%= condition %>
   </button>
   
   <!-- Modal -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal fade" id="exampleModal-<%= condition %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">

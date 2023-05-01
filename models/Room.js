@@ -45,8 +45,10 @@ class Room {
 
 	static async getCharacters(roomId) {
 		let query = `SELECT character_id FROM character_room
-		WHERE room_id = $1`;
-		const result = await db.query(query, roomId);
+		WHERE room_id = $1 ORDER BY character_id`;
+		const result = await db.query(query, [ roomId ]);
+
+		return result.rows;
 	}
 
 	static async addCharacter(roomId, characterId) {
@@ -77,9 +79,7 @@ class Room {
                RETURNING id`,
 			[ id ]
 		);
-		const char = result.rows[0];
-		console.log(`INSIDE MODEL DELETE METHOD`);
-		console.log(char);
+		return result;
 	}
 }
 

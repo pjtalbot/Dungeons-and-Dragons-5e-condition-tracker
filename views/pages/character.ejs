@@ -1,7 +1,7 @@
 <%- include('../partials/head') %>
 <%- include('../partials/LoggedInNavbar') %>
 
-<div class="container-lg">
+<div class="container">
     <div class="container-md border">
         <h1>Character Name: <%= character.name %> </h1>
     <h2>Class: <%= character.class %></h2>
@@ -13,7 +13,8 @@
     <%- include('../partials/characterStats') %>
     
     
-    <h3 class="accordion-header">Max HP: <%= character.max_hp %></h3>
+    <h3 class="h3">Max HP: <%= character.max_hp %></h3>
+    <div class="h3"><h3>AC: <%= character.ac %></h3></div>
     
     
     <h3>Resistances</h3>
@@ -27,23 +28,13 @@
             </ul>
         </ul>
     
-    
-    
-
-    
-
-
-
-    
-    
-
     <%- include('../partials/resistancesForm', {allDamageTypes: allDamageTypes}) %>
-    
-    
     
     <%- include('../partials/abilitiesForm.ejs', {character: character}) %>
 
     <%- include('../partials/maxHPForm') %>
+
+    <%- include('../partials/armorClassForm') %>
     
 
     
@@ -53,5 +44,26 @@
         <form action='/character/delete/<%= character.id %>' method="POST">
             <button class='btn-danger'>Delete Character</button>
         </form>
+
+
+</div>
+
+<div class="container-md border px-2">
+    <form action='/character/duplicate/<%= character.id %>' method="POST">
+        <label for="newName">Name</label>
+        <input type="text" name="newName"required value="<%= character.name %>">
+        <button class='btn-primary'>Duplicate Character</button>
+    </form>
+
+    
+</div>
+
+<div class="container-md border px-2">
+    <h3 class="h3">Rooms:</div>
+        <ul>
+            <% for (let r of rooms) { %>
+                <li><a href="/room/<%= r.id %>"><%= r.name %></a></li>
+                <%}%>
+        </ul>
 </div>
 

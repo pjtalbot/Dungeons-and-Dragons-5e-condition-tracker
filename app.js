@@ -51,10 +51,9 @@ app.use(
 // app.use(express.json());
 
 app.use(passport.initialize());
+app.use(methodOverride('_method'));
 
 app.use(passport.session());
-
-app.use(methodOverride('_method'));
 
 // ROUTES
 app.use('/', function(req, res, next) {
@@ -77,13 +76,17 @@ app.get('/', (req, res) => {
 	}
 });
 
-app.delete('/logout', (req, res) => {
+app.post('/logout', (req, res) => {
 	req.logOut((err) => {
 		if (err) {
 			return next(err);
 		}
 	});
 	res.redirect('/login');
+});
+
+app.use(function(req, res, next) {
+	res.status(404).render('pages/404.ejs');
 });
 
 app.use(function(req, res, next) {

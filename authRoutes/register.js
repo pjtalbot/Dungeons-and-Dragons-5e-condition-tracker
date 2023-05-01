@@ -14,7 +14,7 @@ router.get('/', checkNotAuthenticated, (req, res) => {
 
 router.post('/', checkNotAuthenticated, async (req, res) => {
 	try {
-		// TODO: Add datetime
+		// TODO: Avoid register hard refresh
 		//
 		validateRegister(req);
 

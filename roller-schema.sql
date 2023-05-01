@@ -15,7 +15,7 @@ DROP TABLE IF EXISTS "characters" CASCADE;
 DROP TABLE IF EXISTS "images" CASCADE;
 DROP TABLE IF EXISTS "cards" CASCADE;
 
-\c roller;
+-- \c roller;
 
 CREATE TABLE "users" (
     "id"  SERIAL  NOT NULL,
@@ -70,6 +70,7 @@ CREATE TABLE "characters" (
     "conditions" text [] DEFAULT array[]::varchar[],
     "max_hp" int,
     "current_hp" int,
+    "ac" int,
     "resistances" text [] DEFAULT array[]::varchar[],
     "strength" int,
     "dexterity" int,

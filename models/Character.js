@@ -50,6 +50,52 @@ class Character {
 		}
 	}
 
+	static async duplicate(id, newName) {
+		try {
+			let originalChar = await Character.get(id);
+
+			const result = await db.query(
+				`INSERT INTO characters (
+              name,
+              class,
+              species,
+              created_by,
+			  created_at,
+			  max_hp,
+			  current_hp,
+			  ac,
+			  resistances,
+			  strength,
+			  dexterity,
+			  constitution,
+			  intelligence,
+			  wisdom,
+			  charisma)
+            VALUES ($1, $2, $3, $4, NOW(), $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
+            RETURNING id, name, created_by`,
+				[
+					newName,
+					originalChar.class,
+					originalChar.species,
+					originalChar.created_by,
+					originalChar.max_hp,
+					originalChar.current_hp,
+					originalChar.ac,
+					originalChar.resistances,
+					originalChar.strength,
+					originalChar.dexterity,
+					originalChar.constitution,
+					originalChar.intelligence,
+					originalChar.wisdom,
+					originalChar.charisma
+				]
+			);
+			return result.rows[0];
+		} catch (e) {
+			throw new ExpressError(e);
+		}
+	}
+
 	static async getAll(userId) {
 		const result = await db.query(
 			`SELECT *
@@ -83,11 +129,32 @@ class Character {
 		return result;
 	}
 
+	static async updateAC(id, ac) {
+		const result = await db.query(
+			`
+		UPDATE characters
+		SET ac = $1
+		WHERE id = $2`,
+			[ ac, id ]
+		);
+		return result;
+	}
+
 	static async addResistance(id, resistance) {
 		let query = `UPDATE characters
 		SET resistances = ARRAY_APPEND(resistances, $1)
 		WHERE id = $2`;
 		let result = await db.query(query, [ resistance, id ]);
+		return result;
+	}
+
+	static async getRooms(id) {
+		let query = `SELECT rooms.id, rooms.name
+		FROM rooms
+		JOIN character_room ON rooms.id = character_room.room_id
+		JOIN characters ON characters.id = character_room.character_id
+		WHERE characters.id = $1`;
+		let result = await db.query(query, [ id ]);
 		return result;
 	}
 

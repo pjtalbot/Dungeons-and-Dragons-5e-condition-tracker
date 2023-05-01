@@ -3,10 +3,11 @@
 
 <div class="container">
   <div class="container">
-    <h1>Room Id:<%= room.id %> </h1>
-    <h2>Room Name: <%= room.name %></h2>
+    
+    <h1>Room Name: <%= room.name %></h2>
+      <h3>Room Id: <%= room.id %> </h3>
     <div class="d-flex flex-row">
-      <div class="col d-flex">
+      <div class="d-flex">
 
         
 <%- include('../partials/userCharactersForm', {myCharacters: myCharacters}) %>
@@ -19,7 +20,7 @@
   <h3>Players</h3>
   <ul id="players">
   <% for (let i = 0; i <players.length ; i++) { %>
-      <li> <a href="/character/<%=players[i].id%>"><%= players[i].name %></a> </li>
+      <li> <%= players[i].name %></li>
   <% } %>
   </ul>
 
@@ -28,11 +29,14 @@
 
   <div class="container" style="width: 100%">
     <div class="row row-cols-1 row-cols-lg-3 g-4" id="character-card-container">
-  
+  <% for (let i = 0; i < characters.rows.length; i++) { %>
+    <% let c = characters.rows[i]%>
+    <% console.log(c) %>
+    <%- include('../partials/characterCard', {character: c, room: room})%>
+
+    <% } %>
    
-      <% for (let c of characters.rows) { %> 
-        <%- include('../partials/characterCard', {character: c, room: room})%>
-      <% } %>
+
     </div>
   </div>
 

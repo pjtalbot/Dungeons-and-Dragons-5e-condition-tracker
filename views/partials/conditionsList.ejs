@@ -1,19 +1,15 @@
 <div class="container" id="conditionsAccordion">
-    <h6>Conditions:</h6>
-    
-    <% for (let condition in conditions) { %>
-                     
-    
-                <%- include('../partials/conditionsModal', {condition: condition, conditions: conditions}) %>
-            
 
+    <% if (Object.keys(conditions).length != 0) { %>
+        <h6>Conditions:</h6>
 
-                    
-        
-             
+        <% for (let condition in conditions) { %>       
+                    <%- include('../partials/conditionsModal', {condition: condition, conditions: conditions}) %>
+                 
+        <% } %>
+        <form action="/character/<%= character.id %>/removeAll/conditions/<%= room.id %>" method="POST"><button class="btn btn-danger">Remove All Conditions</button></form>
+
     <% } %>
 
-   
-    <form action="/character/<%= character.id %>/removeAll/conditions/<%= room.id %>" method="POST"><button class="btn btn-danger">Remove All Conditions</button></form>
 
 <!-- Button trigger modal -->

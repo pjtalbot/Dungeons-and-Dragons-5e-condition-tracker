@@ -34,8 +34,9 @@
 		"yup": "^0.32.11"
 	},
 	"devDependencies": {
-		"cypress": "^12.7.0",
+		"cypress": "^12.10.0",
 		"dotenv": "^16.0.3",
-		"nodemon": "^2.0.20"
+		"nodemon": "^2.0.20",
+		"passport-mock-strategy": "^2.0.0"
 	}
 }

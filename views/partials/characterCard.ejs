@@ -1,18 +1,15 @@
 
 <div class="col" >
     <div class="card" id="character-card-<%= character.id %>">
-        
-            
             <div class="card-body">
                 <h5 class="card-title"><%= character.name %></h5>
+                <h4 class="h6">AC: <%=character.ac %> </h4>
                 <h4 class="h6">HP: <%=character.current_hp %> / <%=character.max_hp %> </h4>
                 <%- include('../partials/currentHPForm', {id: character.id, room: room}) %>
-                <% for (let condition in character.conditions ) { %>
-                    <% console.log( character.conditions ) %>
-                <% } %>
                 <%- include('../partials/conditionsList', {character: character, conditions: character.conditions}) %>
                 <%- include('../partials/conditionForm', {character: character, room: room}) %>
-                <form action="/room/<%= room.id %>/remove_character/<%= character.id %>" method="POST"><button class="btn btn-danger" type="submit">Remove Character</button></form>
+                <form action="/room/<%= room.id %>/remove_character/<%= character.id %>" method="POST"><button class="btn btn-danger" type="submit" id="remove-chatarter-btn-<%= character.name %>">Remove Character</button></form>
+                <a href="/character/<%= character.id%>">Edit Character</a>
             </div>
     </div>
 </div>
