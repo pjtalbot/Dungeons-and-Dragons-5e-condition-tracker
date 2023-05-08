@@ -12,8 +12,6 @@ function initialize(passport, getUserByEmail, getUserById) {
 		}
 
 		try {
-			console.log(password);
-			console.log(user.password);
 			if (await bcrypt.compareSync(password, user.password)) {
 				return done(null, user);
 			} else {
@@ -31,7 +29,6 @@ function initialize(passport, getUserByEmail, getUserById) {
 	});
 	passport.deserializeUser((id, done) => {
 		console.log(`in passport.deserialize`);
-		console.log(getUserById(id));
 		return done(null, getUserById(id));
 	});
 }

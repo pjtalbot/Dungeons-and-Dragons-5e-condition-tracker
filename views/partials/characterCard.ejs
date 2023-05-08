@@ -1,15 +1,33 @@
 
-<div class="col" >
-    <div class="card" id="character-card-<%= character.id %>">
-            <div class="card-body">
+
+    <div class="card row text-light py-1 px-4 rounded" style="width: 100%"id="character-card-<%= character.id %>">
+        <div class="card-body row bg-dark rounded" style="width: 100%">
+            <div class="col col-lg-4">
                 <h5 class="card-title"><%= character.name %></h5>
                 <h4 class="h6">AC: <%=character.ac %> </h4>
-                <h4 class="h6">HP: <%=character.current_hp %> / <%=character.max_hp %> </h4>
-                <%- include('../partials/currentHPForm', {id: character.id, room: room}) %>
-                <%- include('../partials/conditionsList', {character: character, conditions: character.conditions}) %>
-                <%- include('../partials/conditionForm', {character: character, room: room}) %>
-                <form action="/room/<%= room.id %>/remove_character/<%= character.id %>" method="POST"><button class="btn btn-danger" type="submit" id="remove-chatarter-btn-<%= character.name %>">Remove Character</button></form>
-                <a href="/character/<%= character.id%>">Edit Character</a>
+                <h4 class="h6" id="character-hp-<%= character.id %>">HP: <%=character.current_hp %> / <%=character.max_hp %> </h4>
+                <%- include('../partials/currentHPForm', {id: character.id, room: room, hpHelper:hpHelper}) %>
             </div>
-    </div>
+            <div class="col col-lg-4">
+                
+                <%- include('../partials/conditionForm', {character: character, room: room}) %>
+                <%- include('../partials/conditionsList', {character: character, conditions: character.conditions}) %>
+            </div>
+            <div class="col col-lg-4">
+                
+                <div class="container justify-content-end">
+                    <a href="/character/<%= character.id%>" class="justify-content-end btn btn-secondary" style="font-size: 12px; width: 75%">Edit Character</a>
+                    <form class="justify-content-end"action="/room/<%= room.id %>/remove_character/<%= character.id %>" method="POST"><button class="btn-sm btn-danger" style="width: 75%; font-size: 12px; "type="submit" id="remove-chatarter-btn-<%= character.name %>">Remove Character</button></form>
+
+                </div class="justify-content-end">
+                <div class="container">
+                    
+
+                </div>
+            </div>
+        </div>
 </div>
+
+
+
+

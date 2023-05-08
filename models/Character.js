@@ -40,7 +40,6 @@ class Character {
 			);
 
 			if (!result.rows[0]) {
-				console.log('EEEEE');
 				throw new ExpressError(`No such Character: ${id}`, 404);
 			}
 
@@ -97,47 +96,63 @@ class Character {
 	}
 
 	static async getAll(userId) {
-		const result = await db.query(
-			`SELECT *
-            FROM characters
-            WHERE created_by = $1
-			`,
-			[ userId ]
-		);
-		return result.rows;
+		try {
+			const result = await db.query(
+				`SELECT *
+				FROM characters
+				WHERE created_by = $1
+				`,
+				[ userId ]
+			);
+			return result.rows;
+		} catch (e) {
+			throw new ExpressError(e);
+		}
 	}
 
 	static async setMaxHP(id, maxHP) {
-		const result = await db.query(
-			`
-		UPDATE characters
-		SET max_hp = $1
-		WHERE id = $2`,
-			[ maxHP, id ]
-		);
-		return result;
+		try {
+			const result = await db.query(
+				`
+			UPDATE characters
+			SET max_hp = $1
+			WHERE id = $2`,
+				[ maxHP, id ]
+			);
+			return result;
+		} catch (e) {
+			throw new ExpressError(e);
+		}
 	}
 
 	static async updateCurrentHP(id, hp) {
-		const result = await db.query(
-			`
-		UPDATE characters
-		SET current_hp = $1
-		WHERE id = $2`,
-			[ hp, id ]
-		);
-		return result;
+		try {
+			const result = await db.query(
+				`
+			UPDATE characters
+			SET current_hp = $1
+			WHERE id = $2`,
+				[ hp, id ]
+			);
+			return result;
+		} catch (e) {
+			throw new ExpressError(e);
+		}
 	}
 
 	static async updateAC(id, ac) {
-		const result = await db.query(
-			`
-		UPDATE characters
-		SET ac = $1
-		WHERE id = $2`,
-			[ ac, id ]
-		);
-		return result;
+		try {
+			const result = await db.query(
+				`
+			UPDATE characters
+			SET ac = $1
+			WHERE id = $2`,
+				[ ac, id ]
+			);
+			return result;
+		} catch (e) {
+			throw new ExpressError(e);
+		}
 	}
 
 	static async addResistance(id, resistance) {

@@ -1,3 +1,5 @@
+// TODO: Move to helpers
+
 const checkForId = (obj, id) => {
 	if (obj.length > 0) {
 		console.log('CHECKING OBJ FOR ID');

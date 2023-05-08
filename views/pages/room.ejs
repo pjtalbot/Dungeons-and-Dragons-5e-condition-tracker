@@ -1,8 +1,9 @@
 <%- include('../partials/head') %>
 <%- include('../partials/loggedInNavbar') %>
 
-<div class="container">
-  <div class="container">
+
+<div class="container bg-dark rounded-3 shadow" id="room-container">
+  <div class="container text-light p-5">
     
     <h1>Room Name: <%= room.name %></h2>
       <h3>Room Id: <%= room.id %> </h3>
@@ -17,27 +18,33 @@
   </div>
   
 
-  <h3>Players</h3>
+  <!-- <h3>Players</h3>
   <ul id="players">
   <% for (let i = 0; i <players.length ; i++) { %>
       <li> <%= players[i].name %></li>
   <% } %>
-  </ul>
+  </ul> -->
 
 
   <h3>Characters</h3>
 
-  <div class="container" style="width: 100%">
-    <div class="row row-cols-1 row-cols-lg-3 g-4" id="character-card-container">
+  <div class="container" style="width: 100%" id="characters-container">
+    <div>
+      
+    </div>
+    
   <% for (let i = 0; i < characters.rows.length; i++) { %>
     <% let c = characters.rows[i]%>
-    <% console.log(c) %>
-    <%- include('../partials/characterCard', {character: c, room: room})%>
+    <div class="row gy-4">
+      <%- include('../partials/characterCard', {character: c, room: room, hpHelper: hpHelper})%>
+
+    </div>
+    
 
     <% } %>
    
 
-    </div>
+    
   </div>
 
 
@@ -96,3 +103,11 @@
 </div>
 <a href="/user/characters">Characters</a>
 <a href="/user/rooms">Rooms</a>
+
+<script>
+  // pass jquery functions here
+
+
+</script>
+
+

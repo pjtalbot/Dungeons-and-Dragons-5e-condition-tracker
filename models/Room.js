@@ -21,8 +21,6 @@ class Room {
 
 		let relation = await db.query(query, [ room.id, userId ]);
 
-		// add association table
-
 		return room;
 	}
 
@@ -35,8 +33,6 @@ class Room {
 		);
 
 		const room = result.rows[0];
-		console.log('7878787&*&*&*&7878787');
-		console.log(room);
 
 		if (!room) throw new NotFoundError(`No room: ${id}`);
 

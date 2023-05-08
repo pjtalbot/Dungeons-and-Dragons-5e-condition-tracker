@@ -6,6 +6,14 @@ const bcrypt = require('bcrypt');
 const db = require('../db.js');
 const yup = require('yup');
 
+var jsdom = require('jsdom');
+const { JSDOM } = jsdom;
+const { window } = new JSDOM();
+const { document } = new JSDOM('').window;
+global.document = document;
+
+var $ = (jQuery = require('jquery')(window));
+
 const { getAllConditions, getDescriptionById, getAllDamageTypes } = require('../dndapi/dndApi');
 
 const Character = require('../models/Character');
@@ -93,20 +101,41 @@ router.post('/:charId/update/hp', checkAuthenticated, async (req, res) => {
 router.post('/:charId/update/current_hp/:roomId', checkAuthenticated, async (req, res) => {
 	// TODO: best way to avoid redirect here and re-render. EJS with jQuery?
 	// or pass roomId for redirect?
+
+	// Scroll to position
+
+	// Add hidden input with scroll position
+
+	//
 	let charId = req.params.charId;
 	let currentHP = req.body.current_hp;
 	let roomId = req.params.roomId;
+	let position = req.body.scrollPosition;
+	console.log(`Position: ${position}`);
 	let result = await Character.updateCurrentHP(charId, currentHP);
-	console.log('THIS IS THE REQ');
-	console.log(req);
 
-	res.redirect(`/room/${roomId}`);
+	let HPElement = $(`#character-hp-${charId}`);
+
+	// Trying to re-render element with jquery
+	// add onClick
+
+	await HPElement.text(`${currentHP} /`);
+
+	let button = $(`#submit-current-hp-btn-${charId}`);
+
+	button.click(function() {
+		HPElement.html = `${currentHP} /`;
+	});
+
+	// let characterCard = document.querySelector(`#character-hp-${charId}`);
+
+	// characterCard.innerHTML = `${currentHP}`;
+
+	res.redirect('back');
 });
 
 router.post('/:charId/update/conditions/:roomId', checkAuthenticated, async (req, res) => {
 	let conditionId = req.body.condition;
-	console.log('CONDITION ID:');
-	console.log(conditionId);
 	let charId = req.params.charId;
 	let roomId = req.params.roomId;
 	let result = await Character.addCondition(charId, conditionId);

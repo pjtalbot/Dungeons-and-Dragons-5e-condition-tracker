@@ -35,17 +35,13 @@ router.post('/', checkNotAuthenticated, async (req, res) => {
 				if (err) {
 					console.log(err);
 					if (err.toString().includes('email')) {
-						console.log(`db.query /register ${err.stack}`);
 						req.flash('info', 'Email already in use');
 					}
 					if (err.toString().includes('name')) {
-						console.log(`db.query /register ${err.stack}`);
 						req.flash('info', 'Username already in use');
 					}
 					res.redirect('/register');
 				} else {
-					console.log(`/register`);
-					console.log(res.rows);
 					res.redirect('/login');
 					// { name: 'brianc', email: 'brian.m.carlson@gmail.com' }
 				}
@@ -54,7 +50,6 @@ router.post('/', checkNotAuthenticated, async (req, res) => {
 			let result = await db.query(query, values, cb);
 		}
 	} catch (e) {
-		console.log('IN CATCH');
 		console.log(e);
 		res.redirect('/register');
 	}

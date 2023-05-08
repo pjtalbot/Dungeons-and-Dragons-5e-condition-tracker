@@ -21,7 +21,6 @@
         <ul>
             <ul id="resistancesList">
                 <% for (let i = 0; i < character.resistances.length ; i++) { %>
-                    <% console.log(character) %>
                     <li> <%= character.resistances[i] %> <form action= "/character/<%= character.id%>/remove/resistance/<%= character.resistances[i]%>" method="POST"><button class="btn btn-danger"id="remove-resistance">x</button></form></li>
                 <% } %>
             
@@ -59,7 +58,7 @@
 </div>
 
 <div class="container-md border px-2">
-    <h3 class="h3">Rooms:</div>
+    <h3 class="h3">Rooms:
         <ul>
             <% for (let r of rooms) { %>
                 <li><a href="/room/<%= r.id %>"><%= r.name %></a></li>

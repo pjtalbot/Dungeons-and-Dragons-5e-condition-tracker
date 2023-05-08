@@ -1,11 +1,13 @@
-<form action="/character/<%= character.id %>/update/conditions/<%= room.id %>" method="POST">
-    <div>
-        <select id="conditions" name="condition" required>
-            <option value="" disabled selected hidden>Choose Condition...</option>
-            <% for (let c of allConditions.results) { %>
-             <option value="<%= c.index %>"><%= c.index %></option>       
-           <% } %>
-            </select>
-    </div>
-    <button class='btn btn-primary'type="submit" id="add-condition-btn-<%= character.name %>">Add Condition</button>
-</form>
+<div class="container">
+    <form action="/character/<%= character.id %>/update/conditions/<%= room.id %>" method="POST">
+        
+            <select id="conditions" name="condition" required class="form-select">
+                <option value="" disabled selected hidden>Choose Condition...</option>
+                <% for (let c of allConditions.results) { %>
+                 <option value="<%= c.index %>"><%= c.index %></option>       
+               <% } %>
+                </select>
+        
+        <button class='btn btn-primary'type="submit" id="add-condition-btn-<%= character.name %>">Add Condition</button>
+    </form>
+</div>

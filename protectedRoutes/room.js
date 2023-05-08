@@ -6,6 +6,14 @@ const bcrypt = require('bcrypt');
 const db = require('../db.js');
 const yup = require('yup');
 
+var jsdom = require('jsdom');
+const { JSDOM } = jsdom;
+const { window } = new JSDOM();
+const { document } = new JSDOM('').window;
+global.document = document;
+
+var $ = (jQuery = require('jquery')(window));
+
 const Room = require('../models/Room');
 const Character = require('../models/Character');
 
@@ -15,26 +23,49 @@ const { getDescriptionById, getAllConditions } = require('../dndapi/dndApi');
 
 router.get('/:roomId', checkAuthenticated, async (req, res, next) => {
 	let roomId = req.params.roomId;
-	console.log(roomId);
 	let userId = req.session.passport.user;
+	let position = req.body.scrollPosition;
+	console.log(`position: ${position}`);
 
 	let room = await Room.get(roomId);
+
+	let container = $('#characters-container');
+
+	console.log(container);
+
+	let pos = $(window).scroll(function() {
+		var scrollPos = $(document).scrollTop();
+		console.log(scrollPos);
+	});
+
+	// console.log(pos);
 
 	let players = await getPlayersInRoom(roomId);
 
 	let characters = await getCharactersInRoom(roomId);
 
+	async function hpHelper(charId) {
+		let HPElement = $(`#character-hp-${charId}`);
+
+		// Trying to re-render element with jquery
+		// add onClick
+
+		HPElement.text(`${currentHP} /`);
+
+		let button = $(`#submit-current-hp-btn-${charId}`);
+
+		button.click(function() {
+			HPElement.html = `${currentHP} /`;
+		});
+	}
+
 	for (let character in characters.rows) {
 		let tempConditions = {};
-		console.log('IN CHARACTERS LOOP');
-		console.log(characters.rows[character]);
+		// console.log('IN CHARACTERS LOOP');
+		// console.log(characters.rows[character]);
 		for (let c in characters.rows[character].conditions) {
-			console.log('condition Id:');
 			let conditionId = characters.rows[character].conditions[c];
-			console.log(characters.rows[character].conditions[c]);
-			console.log(c);
 			let desc = await getDescriptionById(conditionId);
-			console.log(desc);
 
 			tempConditions[`${conditionId}`] = desc;
 			// characters.rows[character].conditions[conditionId];
@@ -45,15 +76,15 @@ router.get('/:roomId', checkAuthenticated, async (req, res, next) => {
 	let allConditions = await getAllConditions();
 
 	let myCharacters = await Character.getAll(userId);
-	console.log(characters);
 
-	console.log(players);
 	res.render('pages/room.ejs', {
 		room: room,
 		players: players,
 		characters: characters,
 		myCharacters: myCharacters,
-		allConditions: allConditions
+		allConditions: allConditions,
+		position: position,
+		hpHelper: hpHelper
 	});
 });
 
@@ -64,13 +95,9 @@ router.post('/:roomId/add_character', checkAuthenticated, async (req, res, next)
 
 	// check that character is not already in room.
 	let charactersInRoom = (await getCharactersInRoom(roomId)).rows;
-	console.log('CHARACTERS IN ROOM');
-	console.log(charactersInRoom);
 
 	for (let character of charactersInRoom) {
 		if (+charId == character.id) {
-			console.log(charId);
-			console.log(character.id);
 			// add flash message
 			return res.redirect(`/room/${roomId}`);
 		}
@@ -92,13 +119,10 @@ router.post('/:roomId/remove_character/:charId', checkAuthenticated, async (req,
 router.post('/join', checkAuthenticated, async (req, res) => {
 	let userId = req.session.passport.user;
 	let roomId = req.body.room_id;
-	console.log(roomId);
 
 	let players = await getPlayersInRoom(roomId);
-	console.log(players);
 
 	let exists = await checkRowExists(roomId, 'rooms');
-	console.log(exists);
 
 	if (exists) {
 		console.log(checkForId(players, userId));
@@ -107,7 +131,7 @@ router.post('/join', checkAuthenticated, async (req, res) => {
             VALUES ($1, $2);`;
 
 			let result = await db.query(query, [ userId, roomId ]);
-			console.log(result);
+
 			res.redirect(`/room/${roomId}`);
 		} else {
 			// TODO: add flash message
@@ -119,13 +143,10 @@ router.post('/join', checkAuthenticated, async (req, res) => {
 		console.log('redirecting');
 		res.redirect(`/user/rooms`);
 	}
-	// TODO: Check players array for userId
-	// TODO: obj is not iterable at checkForId
 });
 
 router.post('/create', checkAuthenticated, async (req, res) => {
 	let formData = await req.body;
-	console.log(formData);
 
 	res.redirect(`room/${formData.name}`);
 });
@@ -136,7 +157,6 @@ router.post('/delete/:roomId', checkAuthenticated, async (req, res) => {
 	let roomId = req.params.roomId;
 
 	let result = await Room.delete(roomId);
-	console.log(result);
 	res.redirect('/user/rooms');
 });
 

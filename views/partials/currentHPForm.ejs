@@ -1,11 +1,12 @@
-<div class="container-md" id="max-hp-form-container">
+<div class="container-md" id="max-hp-form-container-<%= character.id %>">
     
     <form action="/character/<%=character.id %>/update/current_hp/<%= room.id %>" method="POST"
-        class="form" id="max-hp-form">
+        class="form" id="max-hp-form-<%= character.id %>">
         <div class="mb-3 ">
             <label for="current_hp" class="form-label"></label>
             <input type="number" step="1" name="current_hp"class="form-control" required>
-            <button class="btn btn-primary">Update Current HP
+           
+            <button class="btn btn-primary" onClick='hpHelper(<%= character.id %>)'id="submit-current-hp-btn-<%= character.id %>">Update Current HP
             </Button>
         </div>
     </form>

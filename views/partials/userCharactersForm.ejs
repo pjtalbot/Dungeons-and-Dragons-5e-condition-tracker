@@ -1,12 +1,13 @@
 <form action="/room/<%= room.id %>/add_character" method="POST">
-    <div>
-        <select id="user-characters" name="my_character" required>
+    <div class="row" style="width: 100%">
+        <select id="user-characters" name="my_character" required class="form-select rounded col">
             <% console.log(myCharacters.results) %>
             <option value="" disabled selected hidden>Choose Character</option>
             <% for (let myChar of myCharacters) { %>
              <option value="<%= myChar.id %>"><%= myChar.name %> </option>       
            <% } %>
         </select>
-    </div>
-    <button class="btn btn-primary"type="submit">Add Character</button>
+    
+    <button class="btn btn-primary col-4"type="submit">Add Character</button>
+</div>
 </form>
