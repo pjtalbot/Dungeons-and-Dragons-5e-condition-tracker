@@ -2,8 +2,6 @@ if (process.env.NODE_ENV !== 'production') {
 	require('dotenv').config();
 }
 
-// TODO: BLOP or S3 simple storage service (aws)
-
 const express = require('express');
 const app = express();
 const passport = require('passport');

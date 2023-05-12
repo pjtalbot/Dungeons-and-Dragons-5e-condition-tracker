@@ -33,15 +33,17 @@ router.get('/characters', checkAuthenticated, async (req, res) => {
 	res.render('pages/characterForm.ejs', { characters: userCharacters });
 });
 
-router.get('/cards', checkAuthenticated, async (req, res) => {
-	// TODO: set up schema, and use THAT to both create the form AND add user input
+// cards / abilities to be implemented
 
-	let userId = req.session.passport.user;
-	let userCharacters = await Card.getAll(userId);
-	// let userCharacters = (await db.query(`SELECT * FROM characters WHERE created_by = $1`, [ userId ])).rows;
+// router.get('/cards', checkAuthenticated, async (req, res) => {
+// 	// TODO: set up schema, and use THAT to both create the form AND add user input
 
-	res.render('pages/characterForm.ejs', { characters: userCharacters });
-});
+// 	let userId = req.session.passport.user;
+// 	let userCharacters = await Card.getAll(userId);
+// 	// let userCharacters = (await db.query(`SELECT * FROM characters WHERE created_by = $1`, [ userId ])).rows;
+
+// 	res.render('pages/characterForm.ejs', { characters: userCharacters });
+// });
 
 router.post('/characters/create', checkAuthenticated, async (req, res) => {
 	let userId = req.session.passport.user;
@@ -53,7 +55,7 @@ router.post('/characters/create', checkAuthenticated, async (req, res) => {
 		createdBy: userId
 	};
 	await Character.create(formData.name, formData.class, formData.species, formData.createdBy);
-	// retrieve last created character ID (generated Serial)
+
 	let charId = (await db.query(`SELECT currval('characters_id_seq')`)).rows[0].currval;
 
 	let character = (await db.query(`SELECT * FROM characters WHERE id = $1`, [ charId ])).rows[0];
@@ -61,10 +63,6 @@ router.post('/characters/create', checkAuthenticated, async (req, res) => {
 });
 
 router.get('/rooms', checkAuthenticated, async (req, res) => {
-	// TODO: First set up seperate client for chat
-	// make sure both work simultaneously before moving on
-	// simple counter
-
 	let userId = req.session.passport.user;
 	let userRooms = (await db.query(`SELECT id, name FROM rooms WHERE created_by = $1`, [ userId ])).rows;
 	let joinedRooms = (await db.query(

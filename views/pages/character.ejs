@@ -17,52 +17,81 @@
     <div class="h3"><h3>AC: <%= character.ac %></h3></div>
     
     
-    <h3>Resistances</h3>
+    <div>
+        <h3>Resistances:</h3>
+
+   
+    
         <ul>
             <ul id="resistancesList">
-                <% for (let i = 0; i < character.resistances.length ; i++) { %>
-                    <li> <%= character.resistances[i] %> <form action= "/character/<%= character.id%>/remove/resistance/<%= character.resistances[i]%>" method="POST"><button class="btn btn-danger"id="remove-resistance">x</button></form></li>
+
+                <% if (character.resistances.length > 0) { %>
+
+                    <% for (let i = 0; i < character.resistances.length ; i++) { %>
+                        <li> <%= character.resistances[i] %> <form action= "/character/<%= character.id%>/remove/resistance/<%= character.resistances[i]%>" method="POST"><button class="btn btn-danger"id="remove-resistance">x</button></form></li>
+                    <% } %>
+
+              <%  } else { %>
+                <p>No Resistances</p>
+
                 <% } %>
-            
             </ul>
         </ul>
+
+    </div>
+
+
     
     <%- include('../partials/resistancesForm', {allDamageTypes: allDamageTypes}) %>
+
+    <div class="container border border-secondary rounded border-3 py-4 my-2 shadow">
+        <%- include('../partials/abilitiesForm.ejs', {character: character}) %>
+        
+    </div>
     
-    <%- include('../partials/abilitiesForm.ejs', {character: character}) %>
+    <div class=" container border border-secondary rounded border-3 py-4 my-2 shadow"> 
+        <%- include('../partials/maxHPForm') %>
 
-    <%- include('../partials/maxHPForm') %>
+    </div>
+    <div class="container border border-secondary rounded border-3 py-4 my-2 shadow"> 
 
-    <%- include('../partials/armorClassForm') %>
+        <%- include('../partials/armorClassForm.ejs') %>
+        
+    </div>
+
     
 
     
 
 
-    <div class="container-md border px-2">
-        <form action='/character/delete/<%= character.id %>' method="POST">
-            <button class='btn-danger'>Delete Character</button>
-        </form>
 
 
-</div>
+
 
 <div class="container-md border px-2">
-    <form action='/character/duplicate/<%= character.id %>' method="POST">
-        <label for="newName">Name</label>
-        <input type="text" name="newName"required value="<%= character.name %>">
-        <button class='btn-primary'>Duplicate Character</button>
-    </form>
-
-    
-</div>
-
-<div class="container-md border px-2">
-    <h3 class="h3">Rooms:
+    <h3 class="h3">Rooms: </h3>
         <ul>
+            <% if (!rooms.length) {%>
+                <p class="text"><%= character.name %> hasn't been placed in any rooms yet.</p>
+                <% }%>
             <% for (let r of rooms) { %>
                 <li><a href="/room/<%= r.id %>"><%= r.name %></a></li>
                 <%}%>
         </ul>
 </div>
 
+<div class="container-md border py-4 d-flex justify-content-start">
+    <form class="form"action='/character/duplicate/<%= character.id %>' method="POST">
+        <label class="form-label"for="newName">New Name</label>
+        <input type="text" name="newName"required value="<%= character.name %>">
+        <button class='btn btn-primary'>Duplicate Character</button>
+    </form>
+
+    
+</div>
+
+<div class="container-md border py-4 d-flex justify-content-end">
+    <form action='/character/delete/<%= character.id %>' method="POST">
+        <button class='btn btn-danger'>Delete Character</button>
+    </form>
+</div>

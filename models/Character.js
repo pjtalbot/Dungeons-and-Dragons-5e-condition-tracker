@@ -31,7 +31,6 @@ class Character {
 
 	static async get(id) {
 		try {
-			console.log('%%%%%%% INSIDE CHARACTER CLASS get()');
 			const result = await db.query(
 				`SELECT *
             FROM characters
@@ -217,8 +216,6 @@ class Character {
 			[ id ]
 		);
 
-		console.log(result.rows[0]);
-
 		return result.rows[0].resistances;
 	}
 
@@ -248,8 +245,6 @@ class Character {
 			`,
 			[ id ]
 		);
-
-		console.log(result.rows[0]);
 
 		return result.rows[0].conditions;
 	}
@@ -304,8 +299,6 @@ class Character {
 		);
 
 		const char = result.rows[0];
-		console.log(`INSIDE MODEL DELETE METHOD`);
-		console.log(char);
 	}
 }
 

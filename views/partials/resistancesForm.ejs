@@ -1,10 +1,10 @@
 <!-- Yet to be implemented -->
 
-<div class="container-md border">
-    <form action="/character/<%=character.id %>/add/resistance" method="POST">
+<div class="container-md border border-secondary rounded border-3 py-4 shadow">
+    <form class="form"action="/character/<%=character.id %>/add/resistance" method="POST">
         <label for="resistances-selector">Add Resistance</label>
     <div class="select">
-        <select name="resistances" id="resistances-selector">
+        <select class="form-select"name="resistances" id="resistances-selector">
             <% for (let damageType of allDamageTypes.results) { %>
                 <option value="<%= damageType.index %>"><%= damageType.index %></option>       
               <% } %>

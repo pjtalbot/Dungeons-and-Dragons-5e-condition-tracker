@@ -1,5 +1,4 @@
 const validateRegister = function(req, res) {
-	// TODO: No spaces / special characters
 	let pw = req.body.password;
 	if (pw.length < 7 || pw.length > 30) {
 		console.log('Inside PW validator');

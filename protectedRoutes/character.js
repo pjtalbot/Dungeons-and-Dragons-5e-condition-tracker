@@ -1,10 +1,6 @@
 const express = require('express');
 const router = new express.Router();
 const { checkAuthenticated, checkNotAuthenticated } = require('../helpers/checkAuth');
-const passport = require('passport');
-const bcrypt = require('bcrypt');
-const db = require('../db.js');
-const yup = require('yup');
 
 var jsdom = require('jsdom');
 const { JSDOM } = jsdom;
@@ -43,13 +39,6 @@ router.get('/:charId', checkAuthenticated, async (req, res, next) => {
 
 		conditions[newKey] = desc;
 	}
-
-	// TODO: for displaying condition rules
-	//
-
-	// let cards = [ { name: 'spell' }, { name: 'spell2' } ];
-	// TODO: How to display condition description?
-	// pass getDescriptionById function to ejs?
 
 	res.render('pages/character.ejs', {
 		character: character,

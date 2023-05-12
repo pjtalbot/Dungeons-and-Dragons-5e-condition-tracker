@@ -11,3 +11,7 @@ describe('Get /login loads', () => {
 		expect(response.statusCode).toBe(200);
 	});
 });
+
+afterEach(async () => {
+	await db.end();
+});
