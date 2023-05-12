@@ -2,16 +2,11 @@ process.env.NODE_ENV = 'test';
 
 const request = require('supertest');
 
-const app = require('../app');
 const db = require('../db');
-const bcrypt = require('bcrypt');
-const passport = require('passport');
 
 const Character = require('./Character.js');
 const Room = require('./Room.js');
 
-let testUserToken;
-let testAdminToken;
 let testUser;
 let testRoom;
 let newChar;
