@@ -54,8 +54,7 @@ router.get('/:roomId', checkAuthenticated, async (req, res, next) => {
 		characters: characters,
 		myCharacters: myCharacters,
 		allConditions: allConditions,
-		position: position,
-		hpHelper: hpHelper
+		position: position
 	});
 });
 

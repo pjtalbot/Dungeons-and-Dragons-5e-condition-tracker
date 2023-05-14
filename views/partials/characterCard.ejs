@@ -6,7 +6,7 @@
                 <h5 class="card-title"><%= character.name %></h5>
                 <h4 class="h6">AC: <%=character.ac %> </h4>
                 <h4 class="h6" id="character-hp-<%= character.id %>">HP: <%=character.current_hp %> / <%=character.max_hp %> </h4>
-                <%- include('../partials/currentHPForm', {id: character.id, room: room, hpHelper:hpHelper}) %>
+                <%- include('../partials/currentHPForm', {id: character.id, room: room}) %>
             </div>
             <div class="col col-lg-4">
                 
@@ -21,8 +21,6 @@
 
                 </div class="justify-content-end">
                 <div class="container">
-                    
-
                 </div>
             </div>
         </div>

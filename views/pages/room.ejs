@@ -36,7 +36,7 @@
   <% for (let i = 0; i < characters.rows.length; i++) { %>
     <% let c = characters.rows[i]%>
     <div class=" d-flex justify-content-center row py-1">
-      <%- include('../partials/characterCard', {character: c, room: room, hpHelper: hpHelper})%>
+      <%- include('../partials/characterCard', {character: c, room: room})%>
 
     </div>
     

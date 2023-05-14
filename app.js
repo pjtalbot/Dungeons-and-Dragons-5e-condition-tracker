@@ -36,12 +36,6 @@ initializePassport(
 	(id) => db.query(`SELECT * FROM users WHERE id = $1`, [ id ])
 );
 
-// TODO: make a parent directory for both projects
-// Todo: Move dice-roller directory into the parent
-// TODO: install dependencies
-// TODO: import the (dice-roller) app.js as a module (const rollerChat = require('./<path to roller>'))
-// TODO:
-
 app.set('views', './views');
 app.set('view engine', 'ejs');
 

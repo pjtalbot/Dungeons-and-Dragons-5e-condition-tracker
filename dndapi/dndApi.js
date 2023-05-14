@@ -49,10 +49,6 @@ const getRuleByIndex = async (index) => {
 	return rule.data;
 };
 
-const searchSpells = async (query) => {
-	let results = await axios.get(`${BASE_URL}/spells`);
-};
-
 module.exports = {
 	getAllConditions,
 	getAllMonsters,
