@@ -125,6 +125,10 @@ describe('Checks checkUserNameIsAvailable functions', () => {
 
 afterAll(async function() {
 	await db.query('DELETE FROM characters');
+	await db.query('DELETE FROM rooms');
+	await db.query('DELETE FROM users');
+	await db.query('DELETE FROM user_room');
+	await db.query('DELETE FROM character_room');
 
 	db.end();
 });

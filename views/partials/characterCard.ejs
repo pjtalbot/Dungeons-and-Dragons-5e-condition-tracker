@@ -1,12 +1,12 @@
 
 
-    <div class="card row text-light py-1 px-4 rounded" style="width: 100%"id="character-card-<%= character.id %>">
-        <div class="card-body row bg-dark rounded" style="width: 100%">
+    <div class="card row text-light py-4 px-4 rounded my-auto" style="width: 100%"id="character-card-<%= character.id %>">
+        <div class="card-body row bg-dark rounded my-auto border border-primary shadow border-4" style="width: 100%">
             <div class="col col-lg-4">
                 <h5 class="card-title"><%= character.name %></h5>
                 <h4 class="h6">AC: <%=character.ac %> </h4>
                 <h4 class="h6" id="character-hp-<%= character.id %>">HP: <%=character.current_hp %> / <%=character.max_hp %> </h4>
-                <%- include('../partials/currentHPForm', {id: character.id, room: room, hpHelper:hpHelper}) %>
+                <%- include('../partials/currentHPForm', {id: character.id, room: room}) %>
             </div>
             <div class="col col-lg-4">
                 
@@ -21,8 +21,6 @@
 
                 </div class="justify-content-end">
                 <div class="container">
-                    
-
                 </div>
             </div>
         </div>

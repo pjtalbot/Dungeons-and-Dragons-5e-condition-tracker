@@ -17,6 +17,9 @@ let testUser;
 let newChar;
 
 beforeEach(async function() {
+	await db.query(`DELETE FROM characters`);
+	await db.query(`DELETE FROM users`);
+
 	const result = await db.query(
 		`INSERT INTO users (name, email, password, created_at) VALUES ($1, $2, $3, NOW())
     RETURNING id, name, email, password, created_at`,
@@ -53,6 +56,8 @@ afterEach(async () => {
 });
 
 afterAll(async () => {
+	await db.query(`DELETE FROM users`);
+	await db.query(`DELETE FROM characters`);
 	await db.end();
 	// Closing the DB connection allows Jest to exit successfully.
 });

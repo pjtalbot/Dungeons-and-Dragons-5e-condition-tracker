@@ -1,10 +1,6 @@
 const express = require('express');
 const router = new express.Router();
 const { checkAuthenticated, checkNotAuthenticated } = require('../helpers/checkAuth');
-const passport = require('passport');
-const bcrypt = require('bcrypt');
-const db = require('../db.js');
-const yup = require('yup');
 
 const Card = require('../models/Card');
 

@@ -16,12 +16,6 @@ const getDescriptionById = async (id) => {
 	return description.data.desc;
 };
 
-// async function getActiveConditionsDesc(char) {
-// 	for (let condition in char.conditions) {
-// 		let result = await axios.get(`${BASE_URL}/conditions`)
-// 	}
-// }
-
 const getAllMonsters = async () => {
 	let monsters = await axios.get(`${BASE_URL}/monsters`);
 
@@ -53,10 +47,6 @@ const getRuleByIndex = async (index) => {
 	let rule = await axios.get(`${BASE_URL}/rule-sections/${index}`);
 
 	return rule.data;
-};
-
-const searchSpells = async (query) => {
-	let results = await axios.get(`${BASE_URL}/spells`);
 };
 
 module.exports = {

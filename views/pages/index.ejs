@@ -3,19 +3,19 @@
 <%- include('../partials/loggedInNavbar') %>
 
 
-<div class="container">
+<div class="container justify-content-center">
   <!-- <% if (messages) { %>
     <%= messages.info %>
   <% } %> -->
-  <h1>Hi <%= name %>!</h1>
+  <h1 class="h1 d-flex justify-content-center py-5">Hi <%= name %>!</h1>
   <div class="container-fluid" style="height: 60px; width:200px;">
     
-    <a class="btn btn-secondary" id="create-character-btn"style='height:100%; width:100%'href="/user/characters">Create A Character</a>
+    <a class="btn btn-secondary btn-lg border border-dark border-4 shadow-lg" id="create-character-btn py-4"style='width:100%'href="/user/characters">Create A Character</a>
   </div>
 
-  <div class="container-fluid" style="height: 60px; width:200px;">
+  <div class="container" style="height: 60px; width:200px;">
     
-    <a class="btn btn-primary" style="height:100%; width:100%;"href="/user/rooms">Create or Join a Room</a>
+    <a class="btn btn-primary my-5 btn-lg border border-dark border-4 shadow-lg" style="width:100%;"href="/user/rooms">Create or Join a Room</a>
   </div>
 
 

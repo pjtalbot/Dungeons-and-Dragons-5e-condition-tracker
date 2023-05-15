@@ -29,46 +29,17 @@ router.get('/:roomId', checkAuthenticated, async (req, res, next) => {
 
 	let room = await Room.get(roomId);
 
-	let container = $('#characters-container');
-
-	console.log(container);
-
-	let pos = $(window).scroll(function() {
-		var scrollPos = $(document).scrollTop();
-		console.log(scrollPos);
-	});
-
-	// console.log(pos);
-
 	let players = await getPlayersInRoom(roomId);
 
 	let characters = await getCharactersInRoom(roomId);
 
-	async function hpHelper(charId) {
-		let HPElement = $(`#character-hp-${charId}`);
-
-		// Trying to re-render element with jquery
-		// add onClick
-
-		HPElement.text(`${currentHP} /`);
-
-		let button = $(`#submit-current-hp-btn-${charId}`);
-
-		button.click(function() {
-			HPElement.html = `${currentHP} /`;
-		});
-	}
-
 	for (let character in characters.rows) {
 		let tempConditions = {};
-		// console.log('IN CHARACTERS LOOP');
-		// console.log(characters.rows[character]);
 		for (let c in characters.rows[character].conditions) {
 			let conditionId = characters.rows[character].conditions[c];
 			let desc = await getDescriptionById(conditionId);
 
 			tempConditions[`${conditionId}`] = desc;
-			// characters.rows[character].conditions[conditionId];
 		}
 		characters.rows[character].conditions = tempConditions;
 	}
@@ -83,8 +54,7 @@ router.get('/:roomId', checkAuthenticated, async (req, res, next) => {
 		characters: characters,
 		myCharacters: myCharacters,
 		allConditions: allConditions,
-		position: position,
-		hpHelper: hpHelper
+		position: position
 	});
 });
 

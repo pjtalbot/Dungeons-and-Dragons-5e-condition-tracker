@@ -7,17 +7,11 @@ class Room {
 	static async create(data, userId) {
 		let query = `INSERT INTO rooms (name, created_by)
     VALUES ($1, $2) RETURNING id;`;
-		console.log('Room.js create method');
-		console.log(`User Id: ${userId}`);
-		console.log(`data.name: ${data.name}`);
 		const result = await db.query(query, [ data.name, userId ]);
 
 		let room = result.rows[0];
-		console.log(`created Room id: ${room.id}`);
 		query = `INSERT INTO user_room (room_id, user_id)
     VALUES ($1, $2);`;
-		console.log('ROOM ID >>>>');
-		console.log(room.id);
 
 		let relation = await db.query(query, [ room.id, userId ]);
 
