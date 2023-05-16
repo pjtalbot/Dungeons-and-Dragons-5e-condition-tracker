@@ -7,6 +7,12 @@ describe('auth Spec', () => {
 
 			sql: 'DELETE FROM users;'
 		});
+
+		cy.task('READFROMDB', {
+			dbConfig: Cypress.config('DB'),
+
+			sql: 'DELETE FROM characters;'
+		});
 	});
 	it('loads login', () => {
 		cy.visit('localhost:3000/');
@@ -18,6 +24,7 @@ describe('auth Spec', () => {
 		cy.get('#password').clear('f');
 		cy.get('#password').type('Frodo123!@#');
 		cy.get('.btn-primary').click();
+		cy.get('#messages-container > div').should('have.class', 'message');
 		cy.get('.container-md > a').click();
 
 		cy.get('#name').type('Frodo');
@@ -28,6 +35,8 @@ describe('auth Spec', () => {
 		cy.get('#confirm').clear();
 		cy.get('#confirm').type('frodo123!@#');
 		cy.get('.btn-primary').click();
+
+		cy.get('#messages-container > div').should('have.text', 'Passwords do not match');
 		cy.get('#name').clear('F');
 		cy.get('#name').type('Frodo');
 		cy.get('#email').clear();
@@ -47,7 +56,7 @@ describe('auth Spec', () => {
 		cy.get('#create-character-btn').click();
 		cy.get('#name').clear('G');
 		cy.get('#name').type('Gollum');
-		cy.get('.btn').click();
+		cy.get('#create-character-btn').click();
 		cy.get('[name="strength"]').clear('10');
 		cy.get('[name="strength"]').type('10');
 		cy.get('[name="dexterity"]').clear('10');
@@ -67,70 +76,73 @@ describe('auth Spec', () => {
 		cy.get('#ac-form > .mb-3 > input').clear('1');
 		cy.get('#ac-form > .mb-3 > input').type('15');
 		cy.get('#ac-form > .mb-3 > .btn').click();
-		cy.get(':nth-child(12) > form > input').clear('Gollum ');
-		cy.get(':nth-child(12) > form > input').type('Gollum - 2');
+
+		cy.get('#duplicate-character-input').type('Gollum - 2');
 		cy.get(':nth-child(12) > form > .btn-danger').click();
 		cy.get('#nav-login').click();
-		cy.get('#rooms-list > :nth-child(2) > a').click();
-		cy.get(':nth-child(4) > .nav-link').click();
-		cy.get('#room_id').click();
-		cy.get('#name').clear('F');
-		cy.get('#name').type("Frodo's Room");
-		cy.get('.form > .btn').click();
-		cy.get('#user-characters').select('Gollum');
-		cy.get('.flex-row > .d-flex > form > .btn').click();
-		cy.get('#max-hp-form > .mb-3 > .form-control').clear('2');
-		cy.get('#max-hp-form > .mb-3 > .form-control').type('200');
-		cy.get('.mb-3 > .btn').click();
-		cy.get('#conditions').select('deafened');
-		cy.get('.btn').contains('Add Condition').click();
-		cy.get('.btn-secondary').click();
-		cy.get('#remove-condition').click();
-		cy.get('#user-characters').select('Gollum - 2');
-		cy.get('.flex-row > .d-flex > form > .btn').click();
-		cy.get('button').closest('.btn-danger').contains('Remove Character').click();
 
-		/* ==== End Cypress Studio ==== */
-		/* ==== Generated with Cypress Studio ==== */
+		// Insert Assertion: Character list is empty
 
-		/* ==== End Cypress Studio ==== */
-	});
-});
+		cy.get('#characters-list > div').eq(0).should('have.class', `empty`);
 
-describe('Character Spec', () => {
-	it('should create and delete characters', () => {
-		cy.visit('localhost:3000/user');
-		/* ==== Generated with Cypress Studio ==== */
-		cy.get('#email').type('frodo@gmail.com');
-		cy.get('#password').clear('F');
-		cy.get('#password').type('Frodo123!@#');
-		cy.get('.btn-primary').click();
-		cy.get('#create-character-btn').click();
-		cy.get('#name').clear('G');
+		cy.get('#name').clear('Gandalf');
 		cy.get('#name').type('Gandalf');
-		cy.get('#class').clear('W');
-		cy.get('#class').type('Wizard');
-		cy.get('#species').clear('H');
-		cy.get('#species').type('Human');
-		cy.get('.btn').click();
-		cy.get('#max-hp-form > .mb-3 > input').click();
-		cy.get(':nth-child(11) > form > .btn-danger').click();
-
+		cy.get('#create-character-btn').click();
+		cy.get('#nav-login').click();
+		cy.get('#name').clear('Shelob');
+		cy.get('#name').type('Shelob');
+		cy.get('#create-character-btn').click();
+		cy.get('#duplicate-character-input').clear('Shelob ');
+		cy.get('#duplicate-character-input').type('Shelob -2');
+		cy.get('#duplicate-character-btn').click();
+		cy.get('#nav-login').click();
+		/* ==== End Cypress Studio ==== */
 		/* ==== Generated with Cypress Studio ==== */
 
+		cy.get('#nav-login').click();
+		cy.get('#name').clear('Shelob');
+		cy.get('#name').type('Shelob');
+
+		cy.get('#nav-login').click();
 		/* ==== End Cypress Studio ==== */
 	});
 });
 
-describe('Should allow for multiple users interacting with characters through room', () => {
-	it('', () => {
-		cy.visit('localhost:3000/user');
-		/* ==== Generated with Cypress Studio ==== */
-		cy.get('#email').type('frodo@gmail.com');
-		cy.get('#password').clear('F');
-		cy.get('#password').type('Frodo123!@#');
-		cy.get('.btn-primary').click();
+// describe('Character Spec', () => {
+// 	it('should create and delete characters', () => {
+// 		cy.visit('localhost:3000/user');
+// 		/* ==== Generated with Cypress Studio ==== */
+// 		cy.get('#email').type('frodo@gmail.com');
+// 		cy.get('#password').clear('F');
+// 		cy.get('#password').type('Frodo123!@#');
+// 		cy.get('.btn-primary').click();
+// 		cy.get('#create-character-btn').click();
+// 		cy.get('#name').clear('G');
+// 		cy.get('#name').type('Gandalf');
+// 		cy.get('#class').clear('W');
+// 		cy.get('#class').type('Wizard');
+// 		cy.get('#species').clear('H');
+// 		cy.get('#species').type('Human');
+// 		cy.get('#create-character-btn').click();
+// 		cy.get('#max-hp-form > .mb-3 > input').click();
+// 		cy.get(':nth-child(11) > form > .btn-danger').click();
 
-		/* ==== Generated with Cypress Studio ==== */
-	});
-});
+// 		/* ==== Generated with Cypress Studio ==== */
+
+// 		/* ==== End Cypress Studio ==== */
+// 	});
+// });
+
+// describe('Should allow for multiple users interacting with characters through room', () => {
+// 	it('', () => {
+// 		cy.visit('localhost:3000/user');
+// 		/* ==== Generated with Cypress Studio ==== */
+// 		cy.get('#email').type('frodo@gmail.com');
+// 		cy.get('#password').clear('F');
+// 		cy.get('#password').type('Frodo123!@#');
+// 		cy.get('.btn-primary').click();
+
+// 		/* ==== Generated with Cypress Studio ==== */
+// 	});
+// }
+// );

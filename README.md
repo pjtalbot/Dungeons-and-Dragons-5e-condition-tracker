@@ -28,12 +28,18 @@ npm i
 createdb roller
 createdb roller_test
 
+
+
 3. create db tables:
 
 psql roller > roller-schema.sql
 psql roller_test > roller-schema.sql
 
-4. start application (development):
+4. Create .env file with SESSION_SECRET variable
+    - ex: SESSION_SECRET=secret123
+
+
+5. start application (development):
 npm run devStart
 
 

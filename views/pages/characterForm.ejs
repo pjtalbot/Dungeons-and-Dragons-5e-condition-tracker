@@ -20,14 +20,14 @@
             <input class="form-control" type="text" id="species" name="species">
         </div>
     
-        <button class="btn btn-primary py-2 my-2 border-3 border-secondary shadow-lg" type="submit">Create Character</button>
+        <button class="btn btn-primary py-2 my-2 border-3 border-secondary shadow-lg" type="submit" id="create-character-btn">Create Character</button>
     
     </form>
     
     <h2>Your Characters</h2>
-    <ul id="rooms-list">
+    <ul id="characters-list">
         <% if (characters.length == 0) { %>
-            <div class="p">You haven't created any characters yet</div>
+            <div class="empty">You haven't created any characters yet</div>
             <% } %>
         <% for (let i = 0; i <characters.length ; i++) { %>
             <li> <a href="/character/<%=characters[i].id%>"><%= characters[i].name %></a>   </li>
