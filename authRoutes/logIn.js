@@ -3,8 +3,6 @@ const router = new express.Router();
 const { checkNotAuthenticated } = require('../helpers/checkAuth');
 const passport = require('passport');
 
-const dnd = require('dnd-api-remastered');
-
 router.get('/', checkNotAuthenticated, async (req, res) => {
 	res.render('pages/login.ejs');
 });
