@@ -5,6 +5,7 @@ function checkAuthenticated(req, res, next) {
 		return next();
 	}
 	if (req.isAuthenticated()) {
+		// req.isAuthenticated is declared by the passport library
 		return next();
 	}
 	res.redirect('/login');
@@ -12,7 +13,6 @@ function checkAuthenticated(req, res, next) {
 
 function checkNotAuthenticated(req, res, next) {
 	if (req.isAuthenticated()) {
-		console.log('IS AUTHENTICATED');
 		return res.redirect('/');
 	}
 	next();

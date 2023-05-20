@@ -42,6 +42,9 @@ app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: false }));
 app.use(flash());
 app.use(
+	// This is where the session cookie comes from
+	// from "https://stackoverflow.com/questions/28789857/how-is-the-express-req-session-object-persisted"
+	// Part of establishing a session for a given browser client is creating a unique client key (which will usually be stored in a cookie) that becomes the index into the global session object.
 	session({
 		secret: process.env.SESSION_SECRET,
 		resave: false,

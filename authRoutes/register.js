@@ -1,11 +1,10 @@
 const express = require('express');
 const router = new express.Router();
-const { checkAuthenticated, checkNotAuthenticated } = require('../helpers/checkAuth');
+const { checkNotAuthenticated } = require('../helpers/checkAuth');
 const { checkEmailIsAvailable, checkUsernameIsAvailable } = require('../helpers/dbHelpers.js');
-const passport = require('passport');
 const bcrypt = require('bcrypt');
 const db = require('../db.js');
-const yup = require('yup');
+
 const validateRegister = require('../helpers/inputValidators.js');
 
 router.get('/', checkNotAuthenticated, (req, res) => {

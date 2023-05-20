@@ -4,7 +4,7 @@
 const db = require('../db');
 const bcrypt = require('bcrypt');
 const ExpressError = require('express');
-const { getSpellByIndex } = require('../dndapi/dndApi');
+// const { getSpellByIndex } = require('../dndapi/dndApi');
 
 class Card {
 	constructor(name, category, type, properties, desc, damage, bonus) {
