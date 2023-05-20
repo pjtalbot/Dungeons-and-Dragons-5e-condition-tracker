@@ -4,7 +4,7 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"build": "node server.js",
+		"start": "node server.js",
 		"devStart": "nodemon server.js",
 		"test": "jest",
 		"cypress:open": "cypress open"
