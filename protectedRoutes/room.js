@@ -6,14 +6,6 @@ const bcrypt = require('bcrypt');
 const db = require('../db.js');
 const yup = require('yup');
 
-var jsdom = require('jsdom');
-const { JSDOM } = jsdom;
-const { window } = new JSDOM();
-const { document } = new JSDOM('').window;
-global.document = document;
-
-var $ = (jQuery = require('jquery')(window));
-
 const Room = require('../models/Room');
 const Character = require('../models/Character');
 

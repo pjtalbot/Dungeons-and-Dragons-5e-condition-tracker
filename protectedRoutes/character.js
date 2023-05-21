@@ -2,14 +2,6 @@ const express = require('express');
 const router = new express.Router();
 const { checkAuthenticated, checkNotAuthenticated } = require('../helpers/checkAuth');
 
-var jsdom = require('jsdom');
-const { JSDOM } = jsdom;
-const { window } = new JSDOM();
-const { document } = new JSDOM('').window;
-global.document = document;
-
-var $ = (jQuery = require('jquery')(window));
-
 const { getAllConditions, getDescriptionById, getAllDamageTypes } = require('../dndapi/dndApi');
 
 const Character = require('../models/Character');
