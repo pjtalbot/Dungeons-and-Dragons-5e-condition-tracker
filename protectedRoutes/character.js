@@ -91,22 +91,10 @@ router.post('/:charId/update/current_hp/:roomId', checkAuthenticated, async (req
 	let charId = req.params.charId;
 	let currentHP = req.body.current_hp;
 	let roomId = req.params.roomId;
-	let position = req.body.scrollPosition;
-	console.log(`Position: ${position}`);
 	let result = await Character.updateCurrentHP(charId, currentHP);
-
-	let HPElement = $(`#character-hp-${charId}`);
 
 	// Trying to re-render element with jquery
 	// add onClick
-
-	await HPElement.text(`${currentHP} /`);
-
-	let button = $(`#submit-current-hp-btn-${charId}`);
-
-	button.click(function() {
-		HPElement.html = `${currentHP} /`;
-	});
 
 	// let characterCard = document.querySelector(`#character-hp-${charId}`);
 
