@@ -13,8 +13,9 @@ const ExpressError = require('./expressError');
 
 const db = require('./db');
 // Routes
+const loginRoutes = require('./authRoutes/logIn.js');
 const signUpRoutes = require('./authRoutes/register.js');
-const loginRoutes = require('./authRoutes/login.js');
+
 const profileRoutes = require('./protectedRoutes/profile.js');
 const roomRoutes = require('./protectedRoutes/room.js');
 const characterRoutes = require('./protectedRoutes/character.js');
