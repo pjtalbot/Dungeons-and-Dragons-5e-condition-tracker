@@ -19,7 +19,7 @@ const signUpRoutes = require('./authRoutes/register.js');
 const profileRoutes = require('./protectedRoutes/profile.js');
 const roomRoutes = require('./protectedRoutes/room.js');
 const characterRoutes = require('./protectedRoutes/character.js');
-const cardRoutes = require('./protectedRoutes/card.js');
+// const cardRoutes = require('./protectedRoutes/card.js');
 
 const initializePassport = require('./passport-config');
 const { checkAuthenticated, checkNotAuthenticated } = require('./helpers/checkAuth');
@@ -62,7 +62,7 @@ app.use('/login', loginRoutes);
 app.use('/user', profileRoutes);
 app.use('/room', roomRoutes);
 app.use('/character', characterRoutes);
-app.use('/card', cardRoutes);
+// app.use('/card', cardRoutes);
 
 app.get('/', (req, res) => {
 	if (req.isAuthenticated()) {

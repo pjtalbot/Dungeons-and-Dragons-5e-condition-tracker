@@ -1,3 +1,7 @@
 node_modules
 .env
 package-lock.json
+Card.js
+spellsForm.ejs
+cardForm.ejs
+node_modules.zip

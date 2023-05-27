@@ -10,7 +10,6 @@ const { getAllConditions } = require('../dndapi/dndApi');
 // Models
 const Character = require('../models/Character');
 const Room = require('../models/Room');
-const Card = require('../models/Card');
 
 router.get('/', checkAuthenticated, async (req, res, next) => {
 	let userId = req.session.passport.user;
@@ -32,18 +31,6 @@ router.get('/characters', checkAuthenticated, async (req, res) => {
 
 	res.render('pages/characterForm.ejs', { characters: userCharacters });
 });
-
-// cards / abilities to be implemented
-
-// router.get('/cards', checkAuthenticated, async (req, res) => {
-// 	// TODO: set up schema, and use THAT to both create the form AND add user input
-
-// 	let userId = req.session.passport.user;
-// 	let userCharacters = await Card.getAll(userId);
-// 	// let userCharacters = (await db.query(`SELECT * FROM characters WHERE created_by = $1`, [ userId ])).rows;
-
-// 	res.render('pages/characterForm.ejs', { characters: userCharacters });
-// });
 
 router.post('/characters/create', checkAuthenticated, async (req, res) => {
 	let userId = req.session.passport.user;

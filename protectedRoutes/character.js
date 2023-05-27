@@ -5,7 +5,7 @@ const { checkAuthenticated, checkNotAuthenticated } = require('../helpers/checkA
 const { getAllConditions, getDescriptionById, getAllDamageTypes } = require('../dndapi/dndApi');
 
 const Character = require('../models/Character');
-const Card = require('../models/Card');
+
 const { default: axios } = require('axios');
 
 router.get('/:charId', checkAuthenticated, async (req, res, next) => {
@@ -16,8 +16,6 @@ router.get('/:charId', checkAuthenticated, async (req, res, next) => {
 
 	let rooms = (await Character.getRooms(charId)).rows;
 	console.log(rooms);
-
-	let cards = await Card.getAllByCharacter(charId);
 
 	let allConditions = await getAllConditions();
 	let allDamageTypes = await getAllDamageTypes();
@@ -35,7 +33,7 @@ router.get('/:charId', checkAuthenticated, async (req, res, next) => {
 	res.render('pages/character.ejs', {
 		character: character,
 		currentUser: currentUser,
-		cards: cards,
+
 		conditions: conditions,
 		allConditions: allConditions,
 		allDamageTypes: allDamageTypes,
@@ -95,10 +93,6 @@ router.post('/:charId/update/current_hp/:roomId', checkAuthenticated, async (req
 
 	// Trying to re-render element with jquery
 	// add onClick
-
-	// let characterCard = document.querySelector(`#character-hp-${charId}`);
-
-	// characterCard.innerHTML = `${currentHP}`;
 
 	res.redirect('back');
 });
